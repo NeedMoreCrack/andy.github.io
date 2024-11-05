@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resident Evil 4 - Home</title>
+<link rel="stylesheet" href="PICdiv1.css">
+<link rel="stylesheet" href="PICdiv2.css">
+<link rel="stylesheet" href="PICdiv3.css">
+</head>
+
+<style>
+  #OPVID{
+        width: 100%;
+        height: 100%;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: -1;
+        position: fixed;
+      }  
+</style>
+  <!--在父容器上套用flex進行操作display: flex;
+  /* 水平置中 */
+  justify-content: center;    
+  /* 垂直置中 */
+  align-items: center; -->
+<body style="background-color: black;display: flex;align-items: center;">
+  <video autoplay muted loop id="OPVID">
+    <source src="RE4/RE4OP.mp4">
+  </video> 
+<div class="container1">
+  <a href="npc.html"><img src="RE4/LEON.jpg" alt="Avatar" class="image1" style="width:100%"></a>
+  <div class="middle1">
+    <div class="text1">人<br>物<br>介<br>紹</div>
+  </div>
+</div>
+
+<div class="container2">
+  <a href="weapons.html"><img src="RE4/Ada.jpg" alt="Avatar" class="image2" style="width:100%"></a>
+  <div class="middle2">
+    <div class="text2">裝<br>備<br>介<br>紹</div>
+  </div>
+</div>
+
+<div class="container3">
+  <a href="enemy.html"><img src="RE4/monster.png" alt="Avatar" class="image3" style="width:100%"></a>
+  <div class="middle3">
+    <div class="text3">敵<br>人<br>介<br>紹</div>
+  </div>
+</div>
+  
+</body>
+</html>

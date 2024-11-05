@@ -1,0 +1,56 @@
+.logo-container {
+    display: inline-block;
+    justify-content: center;
+    position: relative;   
+}
+
+.logo-container img {
+    display: block;
+    width: 100%;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;   
+}
+
+.logo-container:hover img {
+    opacity: 0.5;
+}
+
+
+.logo-container::after {
+    content: "返回主畫面";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 500%;
+    color: white;
+    font-family: DFKai-SB;
+    z-index: -1;
+}
+
+@media screen and (max-width: 850px){
+    .logo-container::after{
+        content: "返回主畫面";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out;
+        font-size: 250%;
+        color: white;
+        font-family: DFKai-SB;
+        z-index: -1;
+    }
+}
+
+
+
+.logo-container:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
