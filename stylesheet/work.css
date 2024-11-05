@@ -1,3 +1,7 @@
+body {
+    background-color: black;
+    color: white;
+}
 .portfolio-item {
     margin-bottom: 30px;
     transition: transform 0.3s ease;
