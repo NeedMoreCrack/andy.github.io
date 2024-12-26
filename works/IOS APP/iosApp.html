@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator App Introduction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-intro {
+            text-align: center;
+        }
+
+        .app-intro img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .screenshots {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .screenshots img {
+            width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Calculator App</h1>
+    </header>
+
+    <div class="container">
+        <section class="app-intro">
+            <h2>About This App</h2>
+            <p>This calculator app is designed to perform basic arithmetic operations such as addition, subtraction, multiplication, and division. Built using Swift in Xcode, it features a sleek dark mode design and is optimized for iOS devices.</p>
+            <a href="#modal-icon"><img src="img/icon.png" alt="Calculator App Icon"></a>
+        </section>
+
+        <section class="screenshots">
+            <h2>App Screenshots</h2>
+            <a href="#modal-app"><img src="img/App.png" alt="Calculator App Screenshot"></a>
+            <a href="#modal-xcode"><img src="img/XcodeUI.png" alt="Xcode Interface Screenshot"></a>
+        </section>
+    </div>
+
+    <div id="modal-icon" class="modal">
+        <a href="#"><img src="img/icon.png" alt="Calculator App Icon"></a>
+    </div>
+    <div id="modal-app" class="modal">
+        <a href="#"><img src="img/App.png" alt="Calculator App Screenshot"></a>
+    </div>
+    <div id="modal-xcode" class="modal" style="text-align: center;">
+        <a href="#"><img src="img/XcodeUI.png" alt="Xcode Interface Screenshot"></a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Calculator App. All rights reserved.</p>
+    </footer>
+</body>
+</html>
