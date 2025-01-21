@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginSystem App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        .app-intro {
+            text-align: center;
+            padding: 20px;
+        }
+        .features {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .features ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .features li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .screenshot-item {
+            text-align: center;
+        }
+        .screenshot-item img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .screenshot-item img:hover {
+            transform: scale(1.02);
+        }
+        .screenshot-item h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .tech-stack {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            display: block;
+        }
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LoginSystem App</h1>
+    </header>
+    <div class="container">
+        <section class="app-intro">
+            <h2>關於這個系統</h2>
+            <p>LoginSystem 是一個使用 SwiftUI 開發的現代化登入系統，整合了 Firebase 雲端數據庫，提供安全且可靠的使用者驗證機制。這個系統採用了最新的 iOS 設計準則，確保了良好的使用者體驗。</p>
+        </section>
+        <section class="features">
+            <h2>主要功能</h2>
+            <ul>
+                <li>✨ 簡潔的使用者介面設計</li>
+                <li>🔐 安全的帳號密碼驗證</li>
+                <li>☁️ Firebase 雲端數據整合</li>
+                <li>📱 支援 iOS 裝置</li>
+                <li>🎨 符合現代化設計準則</li>
+            </ul>
+        </section>
+        <section class="screenshots">
+            <div class="screenshot-item">
+                <img src="img/LoginPage.png" alt="登入介面截圖" onclick="openModal(this.src, '登入介面截圖')">
+                <h3>登入介面</h3>
+            </div>
+            <div class="screenshot-item">
+                <img src="img/Firestore Database.png" alt="Firebase 設定截圖" onclick="openModal(this.src, 'Firebase 設定截圖')">
+                <h3>Firebase 設定</h3>
+            </div>
+            <div class="screenshot-item">
+                <img src="img/LoginPageCode.png" alt="程式碼介面" onclick="openModal(this.src, '程式碼介面')">
+                <h3>SwiftUI 實作</h3>
+            </div>
+        </section>
+        <section class="tech-stack">
+            <h2>技術規格</h2>
+            <p>• 開發框架：SwiftUI</p>
+            <p>• 後端服務：Firebase</p>
+            <p>• 最低支援版本：iOS 14.0+</p>
+            <p>• 資料庫：Cloud Firestore</p>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 LoginSystem App. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function openModal(imgSrc, altText) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'flex';
+            modalImg.src = imgSrc;
+            modalImg.alt = altText;
+
+            // Close modal when clicking outside the image
+            modal.onclick = function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            }
+
+            // Add keyboard support for closing modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
