@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>員工管理系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        .app-intro {
+            text-align: center;
+            padding: 20px;
+        }
+        .features {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .features ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .features li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .screenshot-item {
+            text-align: center;
+        }
+        .screenshot-item img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .screenshot-item img:hover {
+            transform: scale(1.02);
+        }
+        .screenshot-item h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .tech-stack {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin-top: 20px;
+        }
+        
+        /* 模態視窗樣式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .modal-content img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 12px;
+        }
+        .close {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>員工管理系統</h1>
+    </header>
+    <div class="container">
+        <section class="app-intro">
+            <h2>介紹</h2>
+            <p>
+                本系統提供員工登入、部門管理、資料分析與操作日誌等完整功能
+            </p>
+        </section>
+        <section class="features">
+            <h2>主要功能</h2>
+            <ul>
+                <li>👤 簡潔的登入介面</li>
+                <li>🛡️ 安全的帳號密碼登入 (JWT)</li>
+                <li>🗂️ 詳細管理員工資料</li>
+                <li>📈 員工的數據分析 (ECharts)</li>
+                <li>📝 記錄使用者的操作</li>
+            </ul>
+        </section>
+        <section class="screenshots">
+            <div class="screenshot-item">
+                <h3>登入頁面</h3>
+                <img src="./img/LoginPage.jpg" alt="登入頁面" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>主頁面</h3>
+                <img src="./img/Home.jpg" alt="主頁面" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>黑暗模式+語言切換</h3>
+                <img src="./img/DarkMode.jpg" alt="黑暗模式+語言切換" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>新增員工</h3>
+                <img src="./img/AddEmp.jpg" alt="新增員工" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>修改員工</h3>
+                <img src="./img/EditEmp.jpg" alt="修改員工" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>修改成功</h3>
+                <img src="./img/EditEmpSuccess.jpg" alt="修改成功" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>部門管理</h3>
+                <img src="./img/DeptManage.jpg" alt="部門管理" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>員工分析</h3>
+                <img src="./img/EmpAnalyze.jpg" alt="員工分析" onclick="openModal(this)">
+            </div>
+            <div class="screenshot-item">
+                <h3>系統日誌</h3>
+                <img src="./img/SystemLog.jpg" alt="系統日誌" onclick="openModal(this)">
+            </div>
+        </section>
+        <section class="tech-stack">
+            <h2>技術規格</h2>
+            <p>• 🛠️ 開發工具：Visual Studio Code、IntelliJ IDEA Ultimate</p>
+            <p>• 🧑 前端技術：HTML5、CSS3、JavaScript (ES6+)、Vue.js 3</p>
+            <p>• 💻 後端技術：Java 17、SpringBoot、JWT 身份驗證</p>
+            <p>• 🐬 資料庫與 ORM：MySQL、MyBatis</p>
+            <p>• 🐳 開發環境與部署：Docker、Linux (Ubuntu)</p>
+        </section>
+    </div>
+
+    <!-- 模態視窗 -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 員工管理系統. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function openModal(imgElement) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            modal.style.display = "flex";
+            modalImg.src = imgElement.src;
+            modalImg.alt = imgElement.alt;
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        // 點擊模態框外部區域時關閉
+        document.getElementById("imageModal").addEventListener("click", function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // 鍵盤 ESC 鍵關閉模態框
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
