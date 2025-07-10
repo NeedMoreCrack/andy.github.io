@@ -128,6 +128,35 @@
             text-decoration: none;
         }
     </style>
+    <script type="module">
+        //計次
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzXk18AENy7NlcwFKMSc-27BuMZ5bb9DM",
+            authDomain: "webcount-30ae4.firebaseapp.com",
+            databaseURL: "https://webcount-30ae4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "webcount-30ae4",
+            storageBucket: "webcount-30ae4.firebasestorage.app",
+            messagingSenderId: "474144884055",
+            appId: "1:474144884055:web:d4154c8b57f974360bea12"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const counterRef = ref(database, "web_count");
+        const now = Date.now();
+        const lastCount = localStorage.getItem("lastCountTime");
+        const interval = 86400000;
+        if (!lastCount || now - lastCount > interval) {
+            runTransaction(counterRef, (current) => (current || 0) + 1);
+            localStorage.setItem("lastCountTime", now);
+        }
+        onValue(counterRef, (snapshot) => {
+            const count = snapshot.val();
+            document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -205,7 +234,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 員工管理系統. All rights reserved.</p>
+        <p>2025 員工管理系統. All rights reserved. <span id="view-count"></span></p>
     </footer>
 
     <script>
