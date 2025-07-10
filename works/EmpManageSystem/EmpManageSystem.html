@@ -152,7 +152,7 @@
             runTransaction(counterRef, (current) => (current || 0) + 1);
             localStorage.setItem("lastCountTime", now);
         }
-        get(counterRef, (snapshot) => {
+        get(counterRef).then((snapshot) => {
             const count = snapshot.val();
             document.getElementById("view-count").innerText = `訪問人數: ${count}`;
         });
