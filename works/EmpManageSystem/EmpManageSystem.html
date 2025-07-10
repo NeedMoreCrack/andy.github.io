@@ -131,7 +131,7 @@
     <script type="module">
         //計次
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-        import { getDatabase, ref, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+        import { getDatabase, ref, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
         const firebaseConfig = {
             apiKey: "AIzaSyDzXk18AENy7NlcwFKMSc-27BuMZ5bb9DM",
             authDomain: "webcount-30ae4.firebaseapp.com",
@@ -149,13 +149,24 @@
         const lastCount = localStorage.getItem("lastCountTime");
         const interval = 86400000;
         if (!lastCount || now - lastCount > interval) {
-            runTransaction(counterRef, (current) => (current || 0) + 1);
-            localStorage.setItem("lastCountTime", now);
+            runTransaction(counterRef, (current) => (current || 0) + 1)
+            .then(() => {
+                localStorage.setItem("lastCountTime", now);
+                return get(counterRef);
+            })
+            .then((snapshot) => {
+                const count = snapshot.val();
+                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+            })
+            .catch((error) => {
+                console.error("錯誤：更新人數時發生問題", error);
+            });
+        } else {
+            get(counterRef).then((snapshot) => {
+                const count = snapshot.val();
+                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+            });
         }
-        onValue(counterRef, (snapshot) => {
-            const count = snapshot.val();
-            document.getElementById("view-count").innerText = `訪問人數: ${count}`;
-        });
     </script>
 </head>
 <body>
