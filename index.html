@@ -45,7 +45,7 @@
             })
             .then((snapshot) => {
                 const count = snapshot.val();
-                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+                document.getElementById("view-count").innerText = ` | 訪問次數: ${count}`;
             })
             .catch((error) => {
                 console.error("錯誤：更新人數時發生問題", error);
@@ -53,7 +53,7 @@
         } else {
             get(counterRef).then((snapshot) => {
                 const count = snapshot.val();
-                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+                document.getElementById("view-count").innerText = ` | 訪問次數: ${count}`;
             });
         }
     </script>
@@ -81,7 +81,7 @@
     <!-- 首頁區塊 -->
     <section id="home" class="hero-section">
         <div class="container">
-            <h1>你好，我是一名軟體工程師</h1>
+            <h1>你好，我是一名 Java 後端工程師</h1>
             <p>喜歡學習新的技術來擴展技能樹</p>
         </div>
     </section>
@@ -93,8 +93,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <h3>移動開發</h3>
-                        <p>Swift(SwiftUI,Storyboard), Kotlin</p>
+                        <h3>App開發</h3>
+                        <p>Swift, SwiftUI, Storyboard, Kotlin</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -106,7 +106,21 @@
                 <div class="col-md-4">
                     <div class="skill-card">
                         <h3>後端開發</h3>
-                        <p>Java, Python, SpringBoot, Nginx, MySQL, SQL Server, Linux, Firebase, RabbitMQ, Redis, Docker, Kubernetes, k9s</p>
+                        <p>Java, Spring Boot, MyBatis, Python, Tomcat, RESTful API</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="skill-card">
+                        <h3>資料庫與系統整合</h3>
+                        <p>SQL Server, MySQL, RabbitMQ, Redis, Firebase</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="skill-card">
+                        <h3>部署與開發工具</h3>
+                        <p>Git, GitLab, Linux, Docker, Kubernetes, kubectl, k9s, Nginx</p>
                     </div>
                 </div>
             </div>
@@ -137,7 +151,10 @@
     <script src="javascript/bootstrap.bundle.min.js"></script>
 
     <footer>
-        <p>2026 MyProject. All rights reserved. <span id="view-count"></span></p>
+        <p>
+            © 2026 Andy Portfolio. All rights reserved.
+            <span id="view-count"></span>
+        </p>
     </footer>
 </body>
 </html> 
