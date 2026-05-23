@@ -4,6 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWeb</title>
+    <style>
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+    <script type="module">
+        //計次
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getDatabase, ref, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzXk18AENy7NlcwFKMSc-27BuMZ5bb9DM",
+            authDomain: "webcount-30ae4.firebaseapp.com",
+            databaseURL: "https://webcount-30ae4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "webcount-30ae4",
+            storageBucket: "webcount-30ae4.firebasestorage.app",
+            messagingSenderId: "474144884055",
+            appId: "1:474144884055:web:d4154c8b57f974360bea12"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const counterRef = ref(database, "web_count");
+        const now = Date.now();
+        const lastCount = localStorage.getItem("lastCountTime");
+        const interval = 86400000;
+        if (!lastCount || now - lastCount > interval) {
+            runTransaction(counterRef, (current) => (current || 0) + 1)
+            .then(() => {
+                localStorage.setItem("lastCountTime", now);
+                return get(counterRef);
+            })
+            .then((snapshot) => {
+                const count = snapshot.val();
+                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+            })
+            .catch((error) => {
+                console.error("錯誤：更新人數時發生問題", error);
+            });
+        } else {
+            get(counterRef).then((snapshot) => {
+                const count = snapshot.val();
+                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
+            });
+        }
+    </script>
     <link href="stylesheet/bootstrap.min.css" rel="stylesheet">
     <link href="stylesheet/style.css" rel="stylesheet">
 </head>
@@ -53,7 +102,7 @@
                 <div class="col-md-4">
                     <div class="skill-card">
                         <h3>後端開發</h3>
-                        <p>Java, Python, SpringBoot, Nginx, MySQL, Linux, PHP, Firebase, RabbitMQ、Redis、Docker、Kubernetes、kubectl、k9s</p>
+                        <p>Java, Python, SpringBoot, Nginx, MySQL, SQL Server, Linux, Firebase, RabbitMQ、Redis、Docker、Kubernetes、kubectl、k9s</p>
                     </div>
                 </div>
             </div>
@@ -71,5 +120,9 @@
         </div>
     </section>
     <script src="javascript/bootstrap.bundle.min.js"></script>
+
+    <footer>
+        <p>2026 MyProject. All rights reserved. <span id="view-count"></span></p>
+    </footer>
 </body>
 </html> 

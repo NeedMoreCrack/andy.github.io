@@ -138,48 +138,6 @@
         }
     </style>
 
-    <script type="module">
-        // 計次
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-        import { getDatabase, ref, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "你的 Firebase API Key",
-            authDomain: "你的 Firebase Auth Domain",
-            databaseURL: "你的 Firebase Database URL",
-            projectId: "你的 Firebase Project ID",
-            storageBucket: "你的 Firebase Storage Bucket",
-            messagingSenderId: "你的 Firebase Messaging Sender ID",
-            appId: "你的 Firebase App ID"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const counterRef = ref(database, "vidsprotect_count");
-        const now = Date.now();
-        const lastCount = localStorage.getItem("lastVidsProtectCountTime");
-        const interval = 86400000;
-
-        if (!lastCount || now - lastCount > interval) {
-            runTransaction(counterRef, (current) => (current || 0) + 1)
-            .then(() => {
-                localStorage.setItem("lastVidsProtectCountTime", now);
-                return get(counterRef);
-            })
-            .then((snapshot) => {
-                const count = snapshot.val();
-                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
-            })
-            .catch((error) => {
-                console.error("錯誤：更新人數時發生問題", error);
-            });
-        } else {
-            get(counterRef).then((snapshot) => {
-                const count = snapshot.val();
-                document.getElementById("view-count").innerText = `訪問人數: ${count}`;
-            });
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -231,12 +189,12 @@
                 <img src="./img/MainPage.png" alt="工具主畫面" onclick="openModal(this)">
             </div>
             <div class="screenshot-item">
-                <h3>影片加密過程</h3>
+                <h3>影片加密流程</h3>
                 <img src="./img/Encryption.png" alt="影片加密流程" onclick="openModal(this)">
             </div>
             <div class="screenshot-item">
-                <h3>影片解碼檔案</h3>
-                <img src="./img/EncryptionFiles.png" alt="選擇影片檔案" onclick="openModal(this)">
+                <h3>影片加密檔案</h3>
+                <img src="./img/EncryptionFiles.png" alt="影片加密檔案" onclick="openModal(this)">
             </div>
             <div class="screenshot-item">
                 <h3>影片解密流程</h3>
@@ -264,7 +222,7 @@
     </div>
 
     <footer>
-        <p>2026 VidsProtect. All rights reserved. <span id="view-count"></span></p>
+        <p>2026 VidsProtect. All rights reserved.</p>
     </footer>
 
     <script>
