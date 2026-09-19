@@ -1,83 +1,131 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android群組聊天室</title>
+
+    <title data-i18n="pageTitle">
+        Android 群組聊天室
+    </title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            color: #222;
         }
+
         header {
             background-color: #1a1a1a;
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 24px 16px;
         }
+
+        header h1 {
+            margin: 0;
+        }
+
         .container {
+            width: calc(100% - 32px);
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 30px auto;
+            padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
+
         .app-intro {
             text-align: center;
             padding: 20px;
         }
+
+        .app-intro p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .features {
             margin: 30px 0;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
         }
+
         .features ul {
             list-style-type: none;
             padding: 0;
+            margin-bottom: 0;
         }
+
         .features li {
             margin: 10px 0;
-            padding: 10px;
+            padding: 12px 14px;
             background-color: white;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .screenshots-title {
+            text-align: center;
+            margin-top: 40px;
+        }
+
         .screenshots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
             margin-top: 20px;
-            padding: 20px;
+            padding: 20px 0;
         }
+
         .screenshot-item {
             text-align: center;
         }
+
         .screenshot-item img {
             width: 100%;
             max-width: 400px;
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
             cursor: pointer;
         }
+
         .screenshot-item img:hover {
             transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
+
         .screenshot-item h3 {
-            margin: 10px 0;
+            margin: 12px 0 0;
             color: #333;
         }
+
         .tech-stack {
             background-color: #f8f9fa;
             padding: 20px;
-            margin: 20px 0;
+            margin: 30px 0 0;
             border-radius: 8px;
         }
+
+        .tech-stack p {
+            line-height: 1.7;
+        }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -85,134 +133,551 @@
             color: #fff;
             margin-top: 20px;
         }
-        
-        /* 模態視窗樣式 */
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 90%;
-            max-height: 90%;
-        }
+
         .modal-content img {
-            max-width: 90%;
-            max-height: 80vh;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border-radius: 12px;
         }
+
         .close {
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
             cursor: pointer;
+            z-index: 1001;
         }
+
         .close:hover {
-            color: red;
+            color: #bbb;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            .container {
+                width: calc(100% - 20px);
+                padding: 18px;
+                margin: 20px auto;
+            }
+
+            .app-intro {
+                padding: 10px;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .close {
+                top: 10px;
+                right: 15px;
+            }
         }
     </style>
 </head>
+
+
 <body>
+
     <header>
-        <h1>Android群組聊天室</h1>
+        <h1 data-i18n="mainTitle">
+            Android 群組聊天室
+        </h1>
     </header>
-    <div class="container">
+
+
+    <main class="container">
+
         <section class="app-intro">
-            <h2>關於這個系統</h2>
-            <p>這是一個Android群組聊天室，支援使用者登入、及後台通知的功能。</p>
+
+            <h2 data-i18n="aboutTitle">
+                關於這個系統
+            </h2>
+
+            <p data-i18n="aboutDescription">
+                這是一個使用 Kotlin 開發的 Android 群組聊天室，
+                提供使用者登入、聊天室互動、
+                Firebase Cloud Firestore 資料儲存
+                以及通知功能。
+            </p>
+
         </section>
+
+
         <section class="features">
-            <h2>主要功能</h2>
+
+            <h2 data-i18n="featuresTitle">
+                主要功能
+            </h2>
+
             <ul>
-                <li>✨ 簡潔的登入介面</li>
-                <li>🔐 安全的帳號密碼登入</li>
-                <li>📢 即時通知系統</li>
-                <li>📊 詳細的數據管理</li>
-                <li>⚡ 高效能與穩定性</li>
+
+                <li data-i18n="feature1">
+                    ✨ 簡潔的登入介面
+                </li>
+
+                <li data-i18n="feature2">
+                    🔐 帳號密碼登入
+                </li>
+
+                <li data-i18n="feature3">
+                    💬 群組聊天室功能
+                </li>
+
+                <li data-i18n="feature4">
+                    📢 通知功能
+                </li>
+
+                <li data-i18n="feature5">
+                    ☁️ Cloud Firestore 資料儲存
+                </li>
+
             </ul>
+
         </section>
+
+
+        <h2 class="screenshots-title" data-i18n="screenshotsTitle">
+            系統畫面
+        </h2>
+
+
         <section class="screenshots">
+
             <div class="screenshot-item">
-                <img src="img/LoginPage.png" alt="登入頁面" onclick="openModal(this)">
-                <h3>登入頁面</h3>
+
+                <img src="img/LoginPage.png" alt="登入頁面" data-i18n-alt="loginPageAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="loginPage">
+                    登入頁面
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/Notification.png" alt="通知功能" onclick="openModal(this)">
-                <h3>後台通知功能</h3>
+
+                <img src="img/Notification.png" alt="通知功能" data-i18n-alt="notificationAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="notification">
+                    後台通知功能
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/FirebaseFirestore.png" alt="數據庫管理" onclick="openModal(this)">
-                <h3>數據庫管理</h3>
+
+                <img src="img/FirebaseFirestore.png" alt="數據庫管理" data-i18n-alt="firestoreAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="firestore">
+                    數據庫管理
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/MyScreen.png" alt="我的畫面" onclick="openModal(this)">
-                <h3>我的畫面</h3>
+
+                <img src="img/MyScreen.png" alt="我的畫面" data-i18n-alt="myScreenAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="myScreen">
+                    我的畫面
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/OtherScreen.jpg" alt="其他人畫面" onclick="openModal(this)">
-                <h3>其他人畫面</h3>
+
+                <img src="img/OtherScreen.jpg" alt="其他人畫面" data-i18n-alt="otherScreenAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="otherScreen">
+                    其他人畫面
+                </h3>
+
             </div>
+
         </section>
+
+
         <section class="tech-stack">
-            <h2>技術規格</h2>
-            <p>• 開發工具：Android Studio</p>
-            <p>• 開發語言：Kotlin</p>
-            <p>• 資料庫：Cloud Firestore</p>
-            <p>• 最低支援版本：Android 7</p>
+
+            <h2 data-i18n="techTitle">
+                技術規格
+            </h2>
+
+            <p data-i18n="techTool">
+                • 開發工具：Android Studio
+            </p>
+
+            <p data-i18n="techLanguage">
+                • 開發語言：Kotlin
+            </p>
+
+            <p data-i18n="techDatabase">
+                • 資料庫：Cloud Firestore
+            </p>
+
+            <p data-i18n="techAndroid">
+                • 最低支援版本：Android 7
+            </p>
+
         </section>
+
+    </main>
+
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
+        <div class="modal-content">
+
+            <img id="modalImage" src="" alt="">
+
+        </div>
+
     </div>
 
-    <!-- 模態視窗 -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            <img id="modalImage" src="" alt="">
-        </div>
-    </div>
 
     <footer>
-        <p>&copy; 2025 安卓聊天室. All rights reserved.</p>
+
+        <p data-i18n="footer">
+            &copy; 2025 Android Group Chat App. All rights reserved.
+        </p>
+
     </footer>
 
+
+    <!-- 共用 i18n -->
+    <script src="../../javascript/i18n.js"></script>
+
+
     <script>
-        function openModal(imgElement) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("modalImage");
-            modal.style.display = "flex";
-            modalImg.src = imgElement.src;
-            modalImg.alt = imgElement.alt;
+
+        const translations = {
+
+            zh: {
+
+                pageTitle:
+                    "Android 群組聊天室",
+
+                mainTitle:
+                    "Android 群組聊天室",
+
+                aboutTitle:
+                    "關於這個系統",
+
+                aboutDescription:
+                    `這是一個使用 Kotlin 開發的 Android 群組聊天室，
+                    提供使用者登入、聊天室互動、
+                    Firebase Cloud Firestore 資料儲存
+                    以及通知功能。`,
+
+                featuresTitle:
+                    "主要功能",
+
+                feature1:
+                    "✨ 簡潔的登入介面",
+
+                feature2:
+                    "🔐 帳號密碼登入",
+
+                feature3:
+                    "💬 群組聊天室功能",
+
+                feature4:
+                    "📢 通知功能",
+
+                feature5:
+                    "☁️ Cloud Firestore 資料儲存",
+
+                screenshotsTitle:
+                    "系統畫面",
+
+                loginPage:
+                    "登入頁面",
+
+                notification:
+                    "後台通知功能",
+
+                firestore:
+                    "數據庫管理",
+
+                myScreen:
+                    "我的畫面",
+
+                otherScreen:
+                    "其他人畫面",
+
+                techTitle:
+                    "技術規格",
+
+                techTool:
+                    "• 開發工具：Android Studio",
+
+                techLanguage:
+                    "• 開發語言：Kotlin",
+
+                techDatabase:
+                    "• 資料庫：Cloud Firestore",
+
+                techAndroid:
+                    "• 最低支援版本：Android 7",
+
+                footer:
+                    "&copy; 2025 Android 群組聊天室. 保留所有權利。",
+
+                loginPageAlt:
+                    "登入頁面",
+
+                notificationAlt:
+                    "通知功能畫面",
+
+                firestoreAlt:
+                    "Cloud Firestore 資料畫面",
+
+                myScreenAlt:
+                    "自己的聊天室畫面",
+
+                otherScreenAlt:
+                    "其他使用者的聊天室畫面"
+            },
+
+
+            en: {
+
+                pageTitle:
+                    "Android Group Chat App",
+
+                mainTitle:
+                    "Android Group Chat App",
+
+                aboutTitle:
+                    "About This App",
+
+                aboutDescription:
+                    `This is an Android group chat application developed with Kotlin.
+                    It includes user login, group chat interaction,
+                    data storage with Firebase Cloud Firestore,
+                    and notification functionality.`,
+
+                featuresTitle:
+                    "Key Features",
+
+                feature1:
+                    "✨ Simple and clean login interface",
+
+                feature2:
+                    "🔐 Account and password login",
+
+                feature3:
+                    "💬 Group chat functionality",
+
+                feature4:
+                    "📢 Notification support",
+
+                feature5:
+                    "☁️ Cloud Firestore data storage",
+
+                screenshotsTitle:
+                    "Application Screenshots",
+
+                loginPage:
+                    "Login Screen",
+
+                notification:
+                    "Notification Feature",
+
+                firestore:
+                    "Database Management",
+
+                myScreen:
+                    "My Chat Screen",
+
+                otherScreen:
+                    "Other User Screen",
+
+                techTitle:
+                    "Technical Specifications",
+
+                techTool:
+                    "• Development Tool: Android Studio",
+
+                techLanguage:
+                    "• Programming Language: Kotlin",
+
+                techDatabase:
+                    "• Database: Cloud Firestore",
+
+                techAndroid:
+                    "• Minimum Supported Version: Android 7",
+
+                footer:
+                    "&copy; 2025 Android Group Chat App. All rights reserved.",
+
+                loginPageAlt:
+                    "Login screen",
+
+                notificationAlt:
+                    "Notification feature screenshot",
+
+                firestoreAlt:
+                    "Cloud Firestore data screenshot",
+
+                myScreenAlt:
+                    "Current user's chat screen",
+
+                otherScreenAlt:
+                    "Another user's chat screen"
+            }
+
+        };
+
+
+        const language =
+            applyLanguage(
+                translations
+            );
+
+
+        /*
+         * 處理 img alt 翻譯
+         */
+        document
+            .querySelectorAll("[data-i18n-alt]")
+            .forEach(element => {
+
+                const key =
+                    element.dataset.i18nAlt;
+
+                const value =
+                    translations?.[language]?.[key];
+
+                if (value !== undefined) {
+                    element.alt =
+                        value;
+                }
+
+            });
+
+
+        /*
+         * 開啟圖片 Modal
+         */
+        function openModal(image) {
+
+            const modal =
+                document.getElementById(
+                    "imageModal"
+                );
+
+            const modalImage =
+                document.getElementById(
+                    "modalImage"
+                );
+
+            modal.style.display =
+                "flex";
+
+            modalImage.src =
+                image.src;
+
+            modalImage.alt =
+                image.alt;
         }
 
+
+        /*
+         * 關閉 Modal
+         */
         function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
+
+            document
+                .getElementById(
+                    "imageModal"
+                )
+                .style.display =
+                "none";
         }
 
-        // 點擊模態框外部區域時關閉
-        document.getElementById("imageModal").addEventListener("click", function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
 
-        // 鍵盤 ESC 鍵關閉模態框
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                closeModal();
+        /*
+         * 點黑色背景關閉
+         */
+        document
+            .getElementById("imageModal")
+            .addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === this
+                    ) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+
+        /*
+         * ESC 關閉
+         */
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+                    closeModal();
+                }
+
             }
-        });
+        );
+
     </script>
+
 </body>
+
 </html>

@@ -1,92 +1,152 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VidsProtect</title>
+
+    <title data-i18n="pageTitle">
+        VidsProtect
+    </title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            color: #222;
         }
+
         header {
             background-color: #1a1a1a;
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 24px 16px;
         }
+
+        header h1 {
+            margin: 0;
+        }
+
+        h1 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        h1 a:hover {
+            text-decoration: underline;
+        }
+
         .container {
+            width: calc(100% - 32px);
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 30px auto;
+            padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
+
         .app-intro {
             text-align: center;
             padding: 20px;
         }
+
+        .app-intro p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .features {
             margin: 30px 0;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
         }
+
         .features ul {
             list-style-type: none;
             padding: 0;
+            margin-bottom: 0;
         }
+
         .features li {
             margin: 10px 0;
-            padding: 10px;
+            padding: 12px 14px;
             background-color: white;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.7;
         }
+
+        .project-highlight {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .project-highlight p {
+            line-height: 1.8;
+        }
+
+        .screenshots-title {
+            text-align: center;
+            margin-top: 40px;
+        }
+
         .screenshots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
             margin-top: 20px;
-            padding: 20px;
+            padding: 20px 0;
         }
+
         .screenshot-item {
             text-align: center;
         }
+
         .screenshot-item img {
             width: 100%;
             max-width: 400px;
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
             cursor: pointer;
         }
+
         .screenshot-item img:hover {
             transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
+
         .screenshot-item h3 {
-            margin: 10px 0;
+            margin: 12px 0;
             color: #333;
         }
+
         .tech-stack {
             background-color: #f8f9fa;
             padding: 20px;
-            margin: 20px 0;
+            margin: 30px 0 0;
             border-radius: 8px;
         }
-        .project-highlight {
-            background-color: #f8f9fa;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
+
+        .tech-stack p {
+            line-height: 1.7;
         }
-        .project-highlight p {
-            line-height: 1.8;
-        }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -95,160 +155,625 @@
             margin-top: 20px;
         }
 
-        /* 模態視窗樣式 */
+        footer p {
+            margin: 0;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 90%;
-            max-height: 90%;
-        }
+
         .modal-content img {
-            max-width: 90%;
-            max-height: 80vh;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border-radius: 12px;
         }
+
         .close {
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
             cursor: pointer;
+            z-index: 1001;
         }
+
         .close:hover {
-            color: red;
+            color: #bbb;
         }
-        h1 a {
-            color: inherit;
-            text-decoration: none;
+
+        @media screen and (max-width: 768px) {
+
+            .container {
+                width: calc(100% - 20px);
+                padding: 18px;
+                margin: 20px auto;
+            }
+
+            .app-intro {
+                padding: 10px;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .close {
+                top: 10px;
+                right: 15px;
+            }
         }
     </style>
 
 </head>
+
+
 <body>
+
     <header>
+
         <h1>
-            <a href="https://github.com/NeedMoreCrack/VidsProtect" target="_blank">
+
+            <a href="https://github.com/NeedMoreCrack/VidsProtect" target="_blank" rel="noopener noreferrer">
                 VidsProtect
             </a>
+
         </h1>
+
     </header>
 
-    <div class="container">
+
+    <main class="container">
+
         <section class="app-intro">
-            <h2>介紹</h2>
-            <p>
+
+            <h2 data-i18n="introTitle">
+                介紹
+            </h2>
+
+            <p data-i18n="introDescription">
                 VidsProtect 是一個以 Python 開發的本機端影片保護工具，
                 可將影片檔案進行加密處理，使檔案無法被一般播放器直接開啟。
-                使用者可透過正確金鑰進行解密，將受保護的影片還原為可播放狀態。
+                使用者可透過正確金鑰進行解密，
+                將受保護的影片還原為可播放狀態。
             </p>
+
         </section>
+
 
         <section class="features">
-            <h2>主要功能</h2>
+
+            <h2 data-i18n="featuresTitle">
+                主要功能
+            </h2>
+
             <ul>
-                <li>🔐 影片檔案加密：將原始影片轉換為受保護的加密檔案</li>
-                <li>🔓 影片檔案解密：使用正確金鑰還原影片內容</li>
-                <li>📁 批次處理影片：可一次處理多個影片檔案，減少重複操作</li>
-                <li>🛡️ 防止直接播放：加密後的影片無法被一般播放器直接開啟</li>
-                <li>⚙️ 自動化處理流程：透過 Python 腳本快速執行加密與解密流程</li>
-                <li>💻 本機端執行：不需要將影片上傳到雲端，降低私人影片外流風險</li>
+
+                <li data-i18n="feature1">
+                    🔐 影片檔案加密：將原始影片轉換為受保護的加密檔案
+                </li>
+
+                <li data-i18n="feature2">
+                    🔓 影片檔案解密：使用正確金鑰還原影片內容
+                </li>
+
+                <li data-i18n="feature3">
+                    📁 批次處理影片：可一次處理多個影片檔案，減少重複操作
+                </li>
+
+                <li data-i18n="feature4">
+                    🛡️ 防止直接播放：加密後的影片無法被一般播放器直接開啟
+                </li>
+
+                <li data-i18n="feature5">
+                    ⚙️ 自動化處理流程：透過 Python 腳本執行加密與解密流程
+                </li>
+
+                <li data-i18n="feature6">
+                    💻 本機端執行：不需將影片上傳到雲端即可完成處理
+                </li>
+
             </ul>
+
         </section>
+
 
         <section class="project-highlight">
-            <h2>專案特色</h2>
-            <p>
-                此專案主要解決私人影片檔案在本機端保存時，可能被他人直接開啟或複製觀看的問題。
-                透過檔案加密機制，影片內容會被轉換為不可直接播放的格式，只有在使用者執行解密流程後，
-                才能還原成可播放的影片檔案。
+
+            <h2 data-i18n="highlightTitle">
+                專案特色
+            </h2>
+
+            <p data-i18n="highlightDescription1">
+                此專案主要針對影片檔案在本機端保存時，
+                可能被直接開啟或複製觀看的情境進行設計。
+                透過檔案加密機制，
+                影片內容會被轉換為無法由一般播放器直接播放的資料，
+                使用者完成解密流程後，
+                才能將內容還原成可播放的影片檔案。
             </p>
-            <p>
-                此工具適合用於個人影片保存、私密素材保護、教學影片暫存保護等情境。
-                專案重點不只是單純處理影片，而是結合 Python 的檔案讀寫、加密處理、批次作業與自動化流程。
+
+            <p data-i18n="highlightDescription2">
+                專案實作內容包含 Python 檔案讀寫、
+                加密與解密處理、金鑰驗證、
+                批次檔案處理與自動化流程，
+                作為檔案處理與腳本工具開發的實作專案。
             </p>
+
         </section>
+
+
+        <h2 class="screenshots-title" data-i18n="screenshotsTitle">
+            工具畫面
+        </h2>
+
 
         <section class="screenshots">
+
             <div class="screenshot-item">
-                <h3>工具主畫面</h3>
-                <img src="./img/MainPage.png" alt="工具主畫面" onclick="openModal(this)">
+
+                <h3 data-i18n="mainPage">
+                    工具主畫面
+                </h3>
+
+                <img src="./img/MainPage.png" alt="工具主畫面" data-i18n-alt="mainPageAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>影片加密流程</h3>
-                <img src="./img/Encryption.png" alt="影片加密流程" onclick="openModal(this)">
+
+                <h3 data-i18n="encryption">
+                    影片加密流程
+                </h3>
+
+                <img src="./img/Encryption.png" alt="影片加密流程" data-i18n-alt="encryptionAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>影片加密檔案</h3>
-                <img src="./img/EncryptionFiles.png" alt="影片加密檔案" onclick="openModal(this)">
+
+                <h3 data-i18n="encryptedFiles">
+                    影片加密檔案
+                </h3>
+
+                <img src="./img/EncryptionFiles.png" alt="影片加密檔案" data-i18n-alt="encryptedFilesAlt"
+                    onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>影片解密流程</h3>
-                <img src="./img/Decryption.png" alt="影片解密流程" onclick="openModal(this)">
+
+                <h3 data-i18n="decryption">
+                    影片解密流程
+                </h3>
+
+                <img src="./img/Decryption.png" alt="影片解密流程" data-i18n-alt="decryptionAlt" onclick="openModal(this)">
+
             </div>
+
         </section>
+
 
         <section class="tech-stack">
-            <h2>技術規格</h2>
-            <p>• 🛠️ 開發工具：PyCharm</p>
-            <p>• 🐍 開發語言：Python</p>
-            <p>• 🔐 核心功能：檔案加密、檔案解密、金鑰驗證</p>
-            <p>• 📁 檔案處理：File I/O、影片檔案讀寫、批次檔案處理</p>
-            <p>• ⚙️ 工具類型：CLI Tool / 本機端自動化工具</p>
-            <p>• 🖥️ 執行環境：Windows / macOS / Linux</p>
+
+            <h2 data-i18n="techTitle">
+                技術規格
+            </h2>
+
+            <p data-i18n="techTool">
+                • 🛠️ 開發工具：PyCharm
+            </p>
+
+            <p data-i18n="techLanguage">
+                • 🐍 開發語言：Python
+            </p>
+
+            <p data-i18n="techCore">
+                • 🔐 核心功能：檔案加密、檔案解密、金鑰驗證
+            </p>
+
+            <p data-i18n="techFile">
+                • 📁 檔案處理：File I/O、影片檔案讀寫、批次檔案處理
+            </p>
+
+            <p data-i18n="techType">
+                • ⚙️ 工具類型：CLI Tool / 本機端自動化工具
+            </p>
+
+            <p data-i18n="techEnvironment">
+                • 🖥️ 執行環境：Windows / macOS / Linux
+            </p>
+
         </section>
+
+    </main>
+
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
+        <div class="modal-content">
+
+            <img id="modalImage" src="" alt="">
+
+        </div>
+
     </div>
 
-    <!-- 模態視窗 -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            <img id="modalImage" src="" alt="">
-        </div>
-    </div>
 
     <footer>
-        <p>2026 VidsProtect. All rights reserved.</p>
+
+        <p data-i18n="footer">
+            &copy; 2026 VidsProtect. All rights reserved.
+        </p>
+
     </footer>
 
+
+    <!-- 共用 i18n -->
+    <script src="../../javascript/i18n.js"></script>
+
+
     <script>
-        function openModal(imgElement) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("modalImage");
-            modal.style.display = "flex";
-            modalImg.src = imgElement.src;
-            modalImg.alt = imgElement.alt;
+
+        const translations = {
+
+            zh: {
+
+                pageTitle:
+                    "VidsProtect",
+
+                introTitle:
+                    "介紹",
+
+                introDescription:
+                    `VidsProtect 是一個以 Python 開發的本機端影片保護工具，
+                    可將影片檔案進行加密處理，
+                    使檔案無法被一般播放器直接開啟。
+                    使用者可透過正確金鑰進行解密，
+                    將受保護的影片還原為可播放狀態。`,
+
+                featuresTitle:
+                    "主要功能",
+
+                feature1:
+                    "🔐 影片檔案加密：將原始影片轉換為受保護的加密檔案",
+
+                feature2:
+                    "🔓 影片檔案解密：使用正確金鑰還原影片內容",
+
+                feature3:
+                    "📁 批次處理影片：可一次處理多個影片檔案，減少重複操作",
+
+                feature4:
+                    "🛡️ 防止直接播放：加密後的影片無法被一般播放器直接開啟",
+
+                feature5:
+                    "⚙️ 自動化處理流程：透過 Python 腳本執行加密與解密流程",
+
+                feature6:
+                    "💻 本機端執行：不需將影片上傳到雲端即可完成處理",
+
+                highlightTitle:
+                    "專案特色",
+
+                highlightDescription1:
+                    `此專案主要針對影片檔案在本機端保存時，
+                    可能被直接開啟或複製觀看的情境進行設計。
+                    透過檔案加密機制，
+                    影片內容會被轉換為無法由一般播放器直接播放的資料，
+                    使用者完成解密流程後，
+                    才能將內容還原成可播放的影片檔案。`,
+
+                highlightDescription2:
+                    `專案實作內容包含 Python 檔案讀寫、
+                    加密與解密處理、金鑰驗證、
+                    批次檔案處理與自動化流程，
+                    作為檔案處理與腳本工具開發的實作專案。`,
+
+                screenshotsTitle:
+                    "工具畫面",
+
+                mainPage:
+                    "工具主畫面",
+
+                encryption:
+                    "影片加密流程",
+
+                encryptedFiles:
+                    "影片加密檔案",
+
+                decryption:
+                    "影片解密流程",
+
+                techTitle:
+                    "技術規格",
+
+                techTool:
+                    "• 🛠️ 開發工具：PyCharm",
+
+                techLanguage:
+                    "• 🐍 開發語言：Python",
+
+                techCore:
+                    "• 🔐 核心功能：檔案加密、檔案解密、金鑰驗證",
+
+                techFile:
+                    "• 📁 檔案處理：File I/O、影片檔案讀寫、批次檔案處理",
+
+                techType:
+                    "• ⚙️ 工具類型：CLI Tool / 本機端自動化工具",
+
+                techEnvironment:
+                    "• 🖥️ 執行環境：Windows / macOS / Linux",
+
+                footer:
+                    "&copy; 2026 VidsProtect. 保留所有權利。",
+
+                mainPageAlt:
+                    "VidsProtect 工具主畫面",
+
+                encryptionAlt:
+                    "VidsProtect 影片加密流程",
+
+                encryptedFilesAlt:
+                    "VidsProtect 加密後的影片檔案",
+
+                decryptionAlt:
+                    "VidsProtect 影片解密流程"
+            },
+
+
+            en: {
+
+                pageTitle:
+                    "VidsProtect",
+
+                introTitle:
+                    "Overview",
+
+                introDescription:
+                    `VidsProtect is a local video protection tool
+                    developed with Python.
+                    It encrypts video files so that they cannot be opened
+                    directly by standard media players.
+                    Users can decrypt protected files with the correct key
+                    and restore them to a playable format.`,
+
+                featuresTitle:
+                    "Key Features",
+
+                feature1:
+                    "🔐 Video Encryption: Converts original video files into protected encrypted files",
+
+                feature2:
+                    "🔓 Video Decryption: Restores protected videos using the correct key",
+
+                feature3:
+                    "📁 Batch Processing: Processes multiple video files in a single workflow",
+
+                feature4:
+                    "🛡️ Playback Protection: Encrypted videos cannot be opened directly by standard media players",
+
+                feature5:
+                    "⚙️ Automated Workflow: Uses Python scripts to automate encryption and decryption tasks",
+
+                feature6:
+                    "💻 Local Processing: Video files can be processed without uploading them to a cloud service",
+
+                highlightTitle:
+                    "Project Highlights",
+
+                highlightDescription1:
+                    `This project was designed for situations
+                    where locally stored video files should not be directly
+                    opened or viewed without authorization.
+                    Through file encryption,
+                    video content is converted into data
+                    that standard media players cannot play directly.
+                    After the user completes the decryption process,
+                    the file can be restored to a playable video format.`,
+
+                highlightDescription2:
+                    `The project includes Python file I/O,
+                    encryption and decryption processing,
+                    key validation, batch file handling,
+                    and automated workflows.
+                    It serves as a practical project for learning
+                    file processing and Python automation tool development.`,
+
+                screenshotsTitle:
+                    "Tool Screenshots",
+
+                mainPage:
+                    "Main Interface",
+
+                encryption:
+                    "Video Encryption Process",
+
+                encryptedFiles:
+                    "Encrypted Video Files",
+
+                decryption:
+                    "Video Decryption Process",
+
+                techTitle:
+                    "Technical Specifications",
+
+                techTool:
+                    "• 🛠️ Development Tool: PyCharm",
+
+                techLanguage:
+                    "• 🐍 Programming Language: Python",
+
+                techCore:
+                    "• 🔐 Core Features: File Encryption, File Decryption, Key Validation",
+
+                techFile:
+                    "• 📁 File Processing: File I/O, Video File Handling, Batch Processing",
+
+                techType:
+                    "• ⚙️ Tool Type: CLI Tool / Local Automation Tool",
+
+                techEnvironment:
+                    "• 🖥️ Runtime Environment: Windows / macOS / Linux",
+
+                footer:
+                    "&copy; 2026 VidsProtect. All rights reserved.",
+
+                mainPageAlt:
+                    "VidsProtect main interface",
+
+                encryptionAlt:
+                    "VidsProtect video encryption process",
+
+                encryptedFilesAlt:
+                    "VidsProtect encrypted video files",
+
+                decryptionAlt:
+                    "VidsProtect video decryption process"
+            }
+
+        };
+
+
+        const language =
+            applyLanguage(
+                translations
+            );
+
+
+        /*
+         * 處理圖片 alt 翻譯
+         */
+        document
+            .querySelectorAll("[data-i18n-alt]")
+            .forEach(element => {
+
+                const key =
+                    element.dataset.i18nAlt;
+
+                const value =
+                    translations?.[language]?.[key];
+
+                if (value !== undefined) {
+                    element.alt =
+                        value;
+                }
+
+            });
+
+
+        /*
+         * 開啟 Modal
+         */
+        function openModal(image) {
+
+            const modal =
+                document.getElementById(
+                    "imageModal"
+                );
+
+            const modalImage =
+                document.getElementById(
+                    "modalImage"
+                );
+
+            modal.style.display =
+                "flex";
+
+            modalImage.src =
+                image.src;
+
+            modalImage.alt =
+                image.alt;
         }
 
+
+        /*
+         * 關閉 Modal
+         */
         function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
+
+            document
+                .getElementById(
+                    "imageModal"
+                )
+                .style.display =
+                "none";
         }
 
-        document.getElementById("imageModal").addEventListener("click", function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
 
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                closeModal();
+        /*
+         * 點擊黑色背景關閉
+         */
+        document
+            .getElementById("imageModal")
+            .addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === this
+                    ) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+
+        /*
+         * ESC 關閉
+         */
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+                    closeModal();
+                }
+
             }
-        });
+        );
+
     </script>
+
 </body>
+
 </html>

@@ -1,121 +1,362 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator App Introduction</title>
+
+    <title data-i18n="pageTitle">
+        Calculator App Introduction
+    </title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            color: #222;
         }
 
         header {
             background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 24px 16px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
         }
 
         .container {
+            width: calc(100% - 32px);
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 30px auto;
+            padding: 32px;
             background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .app-intro {
             text-align: center;
         }
 
-        .app-intro img {
-            max-width: 100%;
+        .app-intro h2,
+        .screenshots-section h2 {
+            margin-top: 0;
+        }
+
+        .app-intro p {
+            max-width: 800px;
+            margin: 0 auto 24px;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .app-icon {
+            width: 180px;
+            max-width: 60%;
             height: auto;
-            margin: 10px 0;
+            margin: 10px auto 20px;
+            border-radius: 20px;
             cursor: pointer;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .screenshots-section {
+            margin-top: 40px;
+            text-align: center;
         }
 
         .screenshots {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
             margin-top: 20px;
         }
 
+        .screenshots a {
+            display: block;
+        }
+
         .screenshots img {
-            width: 300px;
+            width: 100%;
+            max-width: 500px;
             height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
             cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .screenshots img:hover,
+        .app-icon:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
         }
 
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.85);
             justify-content: center;
             align-items: center;
-        }
-
-        .modal img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 8px;
+            padding: 20px;
+            z-index: 9999;
         }
 
         .modal:target {
             display: flex;
         }
 
+        .modal-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+        }
+
+        .modal img {
+            display: block;
+            max-width: 95vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -42px;
+            right: 0;
+            color: white;
+            text-decoration: none;
+            font-size: 2rem;
+            line-height: 1;
+        }
+
         footer {
             text-align: center;
-            padding: 10px 0;
+            padding: 16px;
             background-color: #333;
             color: #fff;
-            margin-top: 20px;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media screen and (max-width: 768px) {
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .container {
+                width: calc(100% - 20px);
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .app-intro p {
+                font-size: 0.95rem;
+            }
+
+            .screenshots img {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
+
     <header>
-        <h1>Calculator App</h1>
+        <h1 data-i18n="mainTitle">
+            Calculator App
+        </h1>
     </header>
 
-    <div class="container">
+    <main class="container">
+
         <section class="app-intro">
-            <h2>About This App</h2>
-            <p>This calculator app is designed to perform basic arithmetic operations such as addition, subtraction, multiplication, and division. Built using Swift in Xcode, it features a sleek dark mode design and is optimized for iOS devices.</p>
-            <a href="#modal-icon"><img src="img/icon.png" alt="Calculator App Icon"></a>
+
+            <h2 data-i18n="aboutTitle">
+                About This App
+            </h2>
+
+            <p data-i18n="description">
+                This calculator app is designed to perform basic arithmetic
+                operations such as addition, subtraction, multiplication, and division.
+                Built using Swift in Xcode, it features a sleek dark mode design
+                and is optimized for iOS devices.
+            </p>
+
+            <a href="#modal-icon">
+                <img src="img/icon.png" alt="Calculator App Icon" class="app-icon">
+            </a>
+
         </section>
 
-        <section class="screenshots">
-            <h2>App Screenshots</h2>
-            <a href="#modal-app"><img src="img/App.png" alt="Calculator App Screenshot"></a>
-            <a href="#modal-xcode"><img src="img/XcodeUI.png" alt="Xcode Interface Screenshot"></a>
-        </section>
-    </div>
 
+        <section class="screenshots-section">
+
+            <h2 data-i18n="screenshotsTitle">
+                App Screenshots
+            </h2>
+
+            <div class="screenshots">
+
+                <a href="#modal-app">
+                    <img src="img/App.png" alt="Calculator App Screenshot">
+                </a>
+
+                <a href="#modal-xcode">
+                    <img src="img/XcodeUI.png" alt="Xcode Interface Screenshot">
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- App Icon Modal -->
     <div id="modal-icon" class="modal">
-        <a href="#"><img src="img/icon.png" alt="Calculator App Icon"></a>
+        <div class="modal-content">
+
+            <a href="#" class="modal-close" aria-label="Close">
+                ×
+            </a>
+
+            <a href="#">
+                <img src="img/icon.png" alt="Calculator App Icon">
+            </a>
+
+        </div>
     </div>
+
+
+    <!-- App Screenshot Modal -->
     <div id="modal-app" class="modal">
-        <a href="#"><img src="img/App.png" alt="Calculator App Screenshot"></a>
+        <div class="modal-content">
+
+            <a href="#" class="modal-close" aria-label="Close">
+                ×
+            </a>
+
+            <a href="#">
+                <img src="img/App.png" alt="Calculator App Screenshot">
+            </a>
+
+        </div>
     </div>
-    <div id="modal-xcode" class="modal" style="text-align: center;">
-        <a href="#"><img src="img/XcodeUI.png" alt="Xcode Interface Screenshot"></a>
+
+
+    <!-- Xcode Screenshot Modal -->
+    <div id="modal-xcode" class="modal">
+        <div class="modal-content">
+
+            <a href="#" class="modal-close" aria-label="Close">
+                ×
+            </a>
+
+            <a href="#">
+                <img src="img/XcodeUI.png" alt="Xcode Interface Screenshot">
+            </a>
+
+        </div>
     </div>
+
 
     <footer>
-        <p>&copy; 2024 Calculator App. All rights reserved.</p>
+        <p data-i18n="footer">
+            &copy; 2024 Calculator App. All rights reserved.
+        </p>
     </footer>
+
+
+    <!-- 共用 i18n -->
+    <script src="../../javascript/i18n.js"></script>
+
+
+    <!-- 本頁翻譯 -->
+    <script>
+
+        const translations = {
+
+            zh: {
+
+                pageTitle:
+                    "iOS 計算機 App 介紹",
+
+                mainTitle:
+                    "iOS 計算機 App",
+
+                aboutTitle:
+                    "關於此 App",
+
+                description:
+                    `這是一款使用 Swift 與 Xcode 開發的簡易計算機 App，
+                    支援加法、減法、乘法與除法等基本運算功能。
+                    介面採用深色設計，並針對 iOS 裝置進行開發與測試。`,
+
+                screenshotsTitle:
+                    "App 畫面",
+
+                footer:
+                    "&copy; 2024 Calculator App. 保留所有權利。"
+            },
+
+
+            en: {
+
+                pageTitle:
+                    "Calculator App Introduction",
+
+                mainTitle:
+                    "Calculator App",
+
+                aboutTitle:
+                    "About This App",
+
+                description:
+                    `This calculator app was developed using Swift and Xcode.
+                    It supports basic arithmetic operations including addition,
+                    subtraction, multiplication, and division.
+                    The interface uses a dark-themed design and was developed
+                    and tested for iOS devices.`,
+
+                screenshotsTitle:
+                    "App Screenshots",
+
+                footer:
+                    "&copy; 2024 Calculator App. All rights reserved."
+            }
+
+        };
+
+
+        applyLanguage(
+            translations
+        );
+
+    </script>
+
 </body>
+
 </html>

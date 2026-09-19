@@ -1,83 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoginSystem App</title>
+
+    <title data-i18n="pageTitle">
+        LoginSystem App
+    </title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            color: #222;
         }
+
         header {
             background-color: #1a1a1a;
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 24px 16px;
         }
+
+        header h1 {
+            margin: 0;
+        }
+
         .container {
+            width: calc(100% - 32px);
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 30px auto;
+            padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
+
         .app-intro {
             text-align: center;
             padding: 20px;
         }
+
+        .app-intro p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .features {
             margin: 30px 0;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
         }
+
         .features ul {
             list-style-type: none;
             padding: 0;
+            margin-bottom: 0;
         }
+
         .features li {
             margin: 10px 0;
-            padding: 10px;
+            padding: 12px 14px;
             background-color: white;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .screenshots-title {
+            text-align: center;
+            margin-top: 40px;
+        }
+
         .screenshots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
             margin-top: 20px;
-            padding: 20px;
+            padding: 20px 0;
         }
+
         .screenshot-item {
             text-align: center;
         }
+
         .screenshot-item img {
             width: 100%;
             max-width: 400px;
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
             cursor: pointer;
         }
+
         .screenshot-item img:hover {
             transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
+
         .screenshot-item h3 {
-            margin: 10px 0;
+            margin: 12px 0 0;
             color: #333;
         }
+
         .tech-stack {
             background-color: #f8f9fa;
             padding: 20px;
-            margin: 20px 0;
+            margin: 30px 0 0;
             border-radius: 8px;
         }
+
+        .tech-stack p {
+            line-height: 1.7;
+        }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -86,12 +134,15 @@
             margin-top: 20px;
         }
 
-        /* Modal styles */
+        footer p {
+            margin: 0;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.9);
@@ -99,128 +150,554 @@
             overflow: auto;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
+
         .modal-content {
             position: relative;
-            max-width: 90%;
+            max-width: 90vw;
             max-height: 90vh;
             margin: auto;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         .modal-content img {
-            width: 100%;
-            height: auto;
+            max-width: 90vw;
             max-height: 90vh;
+            width: auto;
+            height: auto;
             object-fit: contain;
             border-radius: 8px;
         }
+
         .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
+            position: fixed;
+            top: 20px;
+            right: 30px;
             color: #f1f1f1;
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
             z-index: 1001;
         }
+
         .close:hover {
             color: #bbb;
         }
+
+        @media screen and (max-width: 768px) {
+
+            .container {
+                width: calc(100% - 20px);
+                padding: 18px;
+                margin: 20px auto;
+            }
+
+            .app-intro {
+                padding: 10px;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .close {
+                top: 10px;
+                right: 15px;
+            }
+        }
     </style>
 </head>
+
 <body>
+
     <header>
-        <h1>LoginSystem App</h1>
+        <h1 data-i18n="mainTitle">
+            LoginSystem App
+        </h1>
     </header>
-    <div class="container">
+
+
+    <main class="container">
+
         <section class="app-intro">
-            <h2>關於這個系統</h2>
-            <p>LoginSystem 是一個使用 SwiftUI 開發的現代化登入系統，整合了 Firebase 雲端數據庫，提供安全且可靠的使用者驗證機制。這個系統採用了最新的 iOS 設計準則，確保了良好的使用者體驗。</p>
+
+            <h2 data-i18n="aboutTitle">
+                關於這個系統
+            </h2>
+
+            <p data-i18n="aboutDescription">
+                LoginSystem 是一個使用 SwiftUI 開發的現代化登入系統，
+                整合了 Firebase 雲端數據庫，
+                提供安全且可靠的使用者驗證機制。
+                這個系統採用了最新的 iOS 設計準則，
+                確保了良好的使用者體驗。
+            </p>
+
         </section>
+
+
         <section class="features">
-            <h2>主要功能</h2>
+
+            <h2 data-i18n="featuresTitle">
+                主要功能
+            </h2>
+
             <ul>
-                <li>✨ 簡潔的使用者介面設計</li>
-                <li>🔐 安全的帳號密碼驗證</li>
-                <li>☁️ Firebase 雲端數據整合</li>
-                <li>📱 支援 iOS 裝置</li>
-                <li>🎨 符合現代化設計準則</li>
+
+                <li data-i18n="feature1">
+                    ✨ 簡潔的使用者介面設計
+                </li>
+
+                <li data-i18n="feature2">
+                    🔐 安全的帳號密碼驗證
+                </li>
+
+                <li data-i18n="feature3">
+                    ☁️ Firebase 雲端數據整合
+                </li>
+
+                <li data-i18n="feature4">
+                    📱 支援 iOS 裝置
+                </li>
+
+                <li data-i18n="feature5">
+                    🎨 符合現代化設計準則
+                </li>
+
             </ul>
+
         </section>
+
+
+        <h2 class="screenshots-title" data-i18n="screenshotsTitle">
+            系統畫面
+        </h2>
+
+
         <section class="screenshots">
+
             <div class="screenshot-item">
-                <img src="img/LoginPage.png" alt="登入介面截圖" onclick="openModal(this.src, '登入介面截圖')">
-                <h3>登入介面</h3>
+
+                <img src="img/LoginPage.png" alt="登入介面截圖" data-i18n-alt="loginPageAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="loginPage">
+                    登入介面
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/LoginSuccess.png" alt="登入成功截圖" onclick="openModal(this.src, '登入成功截圖')">
-                <h3>登入成功</h3>
+
+                <img src="img/LoginSuccess.png" alt="登入成功截圖" data-i18n-alt="loginSuccessAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="loginSuccess">
+                    登入成功
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/LoginFail.png" alt="登入失敗截圖" onclick="openModal(this.src, '登入失敗截圖')">
-                <h3>登入失敗</h3>
+
+                <img src="img/LoginFail.png" alt="登入失敗截圖" data-i18n-alt="loginFailAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="loginFail">
+                    登入失敗
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/AppIcon.png" alt="App Icon" onclick="openModal(this.src, 'App Icon')">
-                <h3>App Icon</h3>
+
+                <img src="img/AppIcon.png" alt="App Icon" data-i18n-alt="appIconAlt" onclick="openModal(this)">
+
+                <h3>
+                    App Icon
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/Firestore Database.png" alt="Firebase 設定截圖" onclick="openModal(this.src, 'Firebase 設定截圖')">
-                <h3>Firebase 設定</h3>
+
+                <img src="img/Firestore Database.png" alt="Firebase 設定截圖" data-i18n-alt="firebaseAlt"
+                    onclick="openModal(this)">
+
+                <h3 data-i18n="firebaseSetting">
+                    Firebase 設定
+                </h3>
+
             </div>
+
+
             <div class="screenshot-item">
-                <img src="img/LoginPageCode.png" alt="程式碼介面" onclick="openModal(this.src, '程式碼介面')">
-                <h3>SwiftUI 實作</h3>
+
+                <img src="img/LoginPageCode.png" alt="程式碼介面" data-i18n-alt="swiftUIAlt" onclick="openModal(this)">
+
+                <h3 data-i18n="swiftUIImplementation">
+                    SwiftUI 實作
+                </h3>
+
             </div>
+
         </section>
+
+
         <section class="tech-stack">
-            <h2>技術規格</h2>
-            <p>• 開發框架：SwiftUI</p>
-            <p>• 後端服務：Firebase</p>
-            <p>• 最低支援版本：iOS 14.0+</p>
-            <p>• 資料庫：Cloud Firestore</p>
+
+            <h2 data-i18n="techTitle">
+                技術規格
+            </h2>
+
+            <p data-i18n="techFramework">
+                • 開發框架：SwiftUI
+            </p>
+
+            <p data-i18n="techBackend">
+                • 後端服務：Firebase
+            </p>
+
+            <p data-i18n="techIOS">
+                • 最低支援版本：iOS 14.0+
+            </p>
+
+            <p data-i18n="techDatabase">
+                • 資料庫：Cloud Firestore
+            </p>
+
         </section>
-    </div>
+
+    </main>
+
 
     <!-- Modal -->
     <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
         <div class="modal-content">
+
             <img id="modalImage" src="" alt="">
+
         </div>
+
     </div>
 
+
     <footer>
-        <p>&copy; 2024 LoginSystem App. All rights reserved.</p>
+
+        <p data-i18n="footer">
+            &copy; 2024 LoginSystem App. All rights reserved.
+        </p>
+
     </footer>
 
-    <script>
-        function openModal(imgSrc, altText) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modal.style.display = 'flex';
-            modalImg.src = imgSrc;
-            modalImg.alt = altText;
 
-            // Close modal when clicking outside the image
-            modal.onclick = function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
+    <!-- 共用 i18n -->
+    <script src="../../javascript/i18n.js"></script>
+
+
+    <script>
+
+        const translations = {
+
+            zh: {
+
+                pageTitle:
+                    "LoginSystem App",
+
+                mainTitle:
+                    "LoginSystem App",
+
+                aboutTitle:
+                    "關於這個系統",
+
+                aboutDescription:
+                    `LoginSystem 是一個使用 SwiftUI 開發的登入系統，
+                    並整合 Firebase 與 Cloud Firestore，
+                    提供帳號密碼驗證與使用者資料管理功能。
+                    介面依照 iOS 設計方式進行開發，
+                    作為 SwiftUI 與 Firebase 整合實作的練習專案。`,
+
+                featuresTitle:
+                    "主要功能",
+
+                feature1:
+                    "✨ 簡潔的使用者介面設計",
+
+                feature2:
+                    "🔐 帳號密碼驗證",
+
+                feature3:
+                    "☁️ Firebase 雲端服務整合",
+
+                feature4:
+                    "📱 支援 iOS 裝置",
+
+                feature5:
+                    "🎨 SwiftUI 現代化介面設計",
+
+                screenshotsTitle:
+                    "系統畫面",
+
+                loginPage:
+                    "登入介面",
+
+                loginSuccess:
+                    "登入成功",
+
+                loginFail:
+                    "登入失敗",
+
+                firebaseSetting:
+                    "Firebase 設定",
+
+                swiftUIImplementation:
+                    "SwiftUI 實作",
+
+                techTitle:
+                    "技術規格",
+
+                techFramework:
+                    "• 開發框架：SwiftUI",
+
+                techBackend:
+                    "• 後端服務：Firebase",
+
+                techIOS:
+                    "• 最低支援版本：iOS 14.0+",
+
+                techDatabase:
+                    "• 資料庫：Cloud Firestore",
+
+                footer:
+                    "&copy; 2024 LoginSystem App. 保留所有權利。",
+
+                loginPageAlt:
+                    "登入介面截圖",
+
+                loginSuccessAlt:
+                    "登入成功截圖",
+
+                loginFailAlt:
+                    "登入失敗截圖",
+
+                appIconAlt:
+                    "App 圖示",
+
+                firebaseAlt:
+                    "Firebase 設定截圖",
+
+                swiftUIAlt:
+                    "SwiftUI 程式碼介面"
+            },
+
+
+            en: {
+
+                pageTitle:
+                    "LoginSystem App",
+
+                mainTitle:
+                    "LoginSystem App",
+
+                aboutTitle:
+                    "About This System",
+
+                aboutDescription:
+                    `LoginSystem is an iOS login application developed with SwiftUI
+                    and integrated with Firebase and Cloud Firestore.
+                    It provides account and password authentication
+                    as well as basic user data management.
+                    The project was created to practice integrating
+                    SwiftUI with Firebase services.`,
+
+                featuresTitle:
+                    "Key Features",
+
+                feature1:
+                    "✨ Clean and simple user interface",
+
+                feature2:
+                    "🔐 Account and password authentication",
+
+                feature3:
+                    "☁️ Firebase cloud service integration",
+
+                feature4:
+                    "📱 Support for iOS devices",
+
+                feature5:
+                    "🎨 Modern UI built with SwiftUI",
+
+                screenshotsTitle:
+                    "Application Screenshots",
+
+                loginPage:
+                    "Login Screen",
+
+                loginSuccess:
+                    "Login Success",
+
+                loginFail:
+                    "Login Failure",
+
+                firebaseSetting:
+                    "Firebase Configuration",
+
+                swiftUIImplementation:
+                    "SwiftUI Implementation",
+
+                techTitle:
+                    "Technical Specifications",
+
+                techFramework:
+                    "• Framework: SwiftUI",
+
+                techBackend:
+                    "• Backend Service: Firebase",
+
+                techIOS:
+                    "• Minimum Supported Version: iOS 14.0+",
+
+                techDatabase:
+                    "• Database: Cloud Firestore",
+
+                footer:
+                    "&copy; 2024 LoginSystem App. All rights reserved.",
+
+                loginPageAlt:
+                    "Login screen screenshot",
+
+                loginSuccessAlt:
+                    "Successful login screenshot",
+
+                loginFailAlt:
+                    "Failed login screenshot",
+
+                appIconAlt:
+                    "App Icon",
+
+                firebaseAlt:
+                    "Firebase configuration screenshot",
+
+                swiftUIAlt:
+                    "SwiftUI source code screenshot"
             }
 
-            // Add keyboard support for closing modal
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeModal();
+        };
+
+
+        /*
+         * 一般 data-i18n 由共用 i18n.js 處理
+         */
+        const language =
+            applyLanguage(
+                translations
+            );
+
+
+        /*
+         * 額外處理圖片 alt
+         * 因為 alt 不是 element.innerHTML
+         */
+        document
+            .querySelectorAll("[data-i18n-alt]")
+            .forEach(element => {
+
+                const key =
+                    element.dataset.i18nAlt;
+
+                const value =
+                    translations?.[language]?.[key];
+
+                if (value !== undefined) {
+                    element.alt =
+                        value;
                 }
+
             });
+
+
+        function openModal(image) {
+
+            const modal =
+                document.getElementById(
+                    "imageModal"
+                );
+
+            const modalImage =
+                document.getElementById(
+                    "modalImage"
+                );
+
+            modal.style.display =
+                "flex";
+
+            modalImage.src =
+                image.src;
+
+            modalImage.alt =
+                image.alt;
         }
 
+
         function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
+
+            document
+                .getElementById(
+                    "imageModal"
+                )
+                .style.display =
+                "none";
         }
+
+
+        /*
+         * 點擊圖片外的黑色背景關閉
+         */
+        document
+            .getElementById("imageModal")
+            .addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === this
+                    ) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+
+        /*
+         * ESC 關閉
+         * 只註冊一次，避免每次開圖都重複綁定事件
+         */
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+                    closeModal();
+                }
+
+            }
+        );
+
     </script>
+
 </body>
+
 </html>

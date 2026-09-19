@@ -1,83 +1,140 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>員工管理系統</title>
+
+    <title data-i18n="pageTitle">
+        員工管理系統
+    </title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            color: #222;
         }
+
         header {
             background-color: #1a1a1a;
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
+            padding: 24px 16px;
         }
+
+        header h1 {
+            margin: 0;
+        }
+
+        h1 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        h1 a:hover {
+            text-decoration: underline;
+        }
+
         .container {
+            width: calc(100% - 32px);
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 30px auto;
+            padding: 30px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
+
         .app-intro {
             text-align: center;
             padding: 20px;
         }
+
+        .app-intro p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .features {
             margin: 30px 0;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
         }
+
         .features ul {
             list-style-type: none;
             padding: 0;
+            margin-bottom: 0;
         }
+
         .features li {
             margin: 10px 0;
-            padding: 10px;
+            padding: 12px 14px;
             background-color: white;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .screenshots-title {
+            text-align: center;
+            margin-top: 40px;
+        }
+
         .screenshots {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
             margin-top: 20px;
-            padding: 20px;
+            padding: 20px 0;
         }
+
         .screenshot-item {
             text-align: center;
         }
+
         .screenshot-item img {
             width: 100%;
             max-width: 400px;
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
             cursor: pointer;
         }
+
         .screenshot-item img:hover {
             transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
+
         .screenshot-item h3 {
-            margin: 10px 0;
+            margin: 12px 0;
             color: #333;
         }
+
         .tech-stack {
             background-color: #f8f9fa;
             padding: 20px;
-            margin: 20px 0;
+            margin: 30px 0 0;
             border-radius: 8px;
         }
+
+        .tech-stack p {
+            line-height: 1.7;
+        }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -85,155 +142,683 @@
             color: #fff;
             margin-top: 20px;
         }
-        
-        /* 模態視窗樣式 */
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 90%;
-            max-height: 90%;
-        }
+
         .modal-content img {
-            max-width: 90%;
-            max-height: 80vh;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border-radius: 12px;
         }
+
         .close {
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
             cursor: pointer;
+            z-index: 1001;
         }
+
         .close:hover {
-            color: red;
+            color: #bbb;
         }
-        h1 a {
-            color: inherit;
-            text-decoration: none;
+
+        @media screen and (max-width: 768px) {
+
+            .container {
+                width: calc(100% - 20px);
+                padding: 18px;
+                margin: 20px auto;
+            }
+
+            .app-intro {
+                padding: 10px;
+            }
+
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            .close {
+                top: 10px;
+                right: 15px;
+            }
         }
     </style>
 </head>
+
+
 <body>
+
     <header>
-        <h1><a href="https://github.com/NeedMoreCrack/EmployeeManagementSystem" target="_blank">員工管理系統</a></h1>
+
+        <h1>
+
+            <a href="https://github.com/NeedMoreCrack/EmployeeManagementSystem" target="_blank"
+                rel="noopener noreferrer" data-i18n="mainTitle">
+                員工管理系統
+            </a>
+
+        </h1>
+
     </header>
-    <div class="container">
+
+
+    <main class="container">
+
         <section class="app-intro">
-            <h2>介紹</h2>
-            <p>本系統提供員工登入、部門管理、資料分析與操作日誌等完整功能</p>
+
+            <h2 data-i18n="introTitle">
+                介紹
+            </h2>
+
+            <p data-i18n="introDescription">
+                本系統提供員工登入、部門管理、資料分析、
+                操作日誌與員工資料管理等功能，
+                並採用 Vue 3 與 Spring Boot 開發。
+            </p>
+
         </section>
+
+
         <section class="features">
-            <h2>主要功能</h2>
+
+            <h2 data-i18n="featuresTitle">
+                主要功能
+            </h2>
+
             <ul>
-                <li>👤 簡潔的登入介面</li>
-                <li>🛡️ 安全的帳號密碼登入 (JWT)</li>
-                <li>🗂️ 詳細管理員工資料</li>
-                <li>📈 員工的數據分析 (ECharts)</li>
-                <li>📝 記錄使用者的操作</li>
+
+                <li data-i18n="feature1">
+                    👤 簡潔的登入介面
+                </li>
+
+                <li data-i18n="feature2">
+                    🛡️ JWT 身份驗證
+                </li>
+
+                <li data-i18n="feature3">
+                    🗂️ 員工與部門資料管理
+                </li>
+
+                <li data-i18n="feature4">
+                    📈 員工資料分析與圖表呈現
+                </li>
+
+                <li data-i18n="feature5">
+                    📝 使用者操作日誌記錄
+                </li>
+
+                <li data-i18n="feature6">
+                    🌙 黑暗模式與多語言切換
+                </li>
+
             </ul>
+
         </section>
+
+
+        <h2 class="screenshots-title" data-i18n="screenshotsTitle">
+            系統畫面
+        </h2>
+
+
         <section class="screenshots">
+
             <div class="screenshot-item">
-                <h3>登入頁面</h3>
-                <img src="./img/LoginPage.jpg" alt="登入頁面" onclick="openModal(this)">
+
+                <h3 data-i18n="loginPage">
+                    登入頁面
+                </h3>
+
+                <img src="./img/LoginPage.jpg" alt="登入頁面" data-i18n-alt="loginPageAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>主頁面</h3>
-                <img src="./img/Home.jpg" alt="主頁面" onclick="openModal(this)">
+
+                <h3 data-i18n="homePage">
+                    主頁面
+                </h3>
+
+                <img src="./img/Home.jpg" alt="主頁面" data-i18n-alt="homePageAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>黑暗模式+語言切換</h3>
-                <img src="./img/DarkMode.jpg" alt="黑暗模式+語言切換" onclick="openModal(this)">
+
+                <h3 data-i18n="darkMode">
+                    黑暗模式 + 語言切換
+                </h3>
+
+                <img src="./img/DarkMode.jpg" alt="黑暗模式與語言切換" data-i18n-alt="darkModeAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>新增員工</h3>
-                <img src="./img/AddEmp.jpg" alt="新增員工" onclick="openModal(this)">
+
+                <h3 data-i18n="addEmployee">
+                    新增員工
+                </h3>
+
+                <img src="./img/AddEmp.jpg" alt="新增員工" data-i18n-alt="addEmployeeAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>修改員工</h3>
-                <img src="./img/EditEmp.jpg" alt="修改員工" onclick="openModal(this)">
+
+                <h3 data-i18n="editEmployee">
+                    修改員工
+                </h3>
+
+                <img src="./img/EditEmp.jpg" alt="修改員工" data-i18n-alt="editEmployeeAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>修改成功</h3>
-                <img src="./img/EditEmpSuccess.jpg" alt="修改成功" onclick="openModal(this)">
+
+                <h3 data-i18n="editSuccess">
+                    修改成功
+                </h3>
+
+                <img src="./img/EditEmpSuccess.jpg" alt="修改成功" data-i18n-alt="editSuccessAlt" onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>部門管理</h3>
-                <img src="./img/DeptManage.jpg" alt="部門管理" onclick="openModal(this)">
+
+                <h3 data-i18n="departmentManagement">
+                    部門管理
+                </h3>
+
+                <img src="./img/DeptManage.jpg" alt="部門管理" data-i18n-alt="departmentManagementAlt"
+                    onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>員工分析</h3>
-                <img src="./img/EmpAnalyze.jpg" alt="員工分析" onclick="openModal(this)">
+
+                <h3 data-i18n="employeeAnalysis">
+                    員工分析
+                </h3>
+
+                <img src="./img/EmpAnalyze.jpg" alt="員工分析" data-i18n-alt="employeeAnalysisAlt"
+                    onclick="openModal(this)">
+
             </div>
+
+
             <div class="screenshot-item">
-                <h3>系統日誌</h3>
-                <img src="./img/SystemLog.jpg" alt="系統日誌" onclick="openModal(this)">
+
+                <h3 data-i18n="systemLog">
+                    系統日誌
+                </h3>
+
+                <img src="./img/SystemLog.jpg" alt="系統日誌" data-i18n-alt="systemLogAlt" onclick="openModal(this)">
+
             </div>
+
         </section>
+
+
         <section class="tech-stack">
-            <h2>技術規格</h2>
-            <p>• 🛠️ 開發工具：Visual Studio Code、IntelliJ IDEA Ultimate</p>
-            <p>• 🧑 前端技術：HTML5、CSS3、JavaScript (ES6+)、Vue.js 3</p>
-            <p>• 💻 後端技術：Java 17、SpringBoot、JWT 身份驗證</p>
-            <p>• 🐬 資料庫與 ORM：MySQL、MyBatis</p>
-            <p>• 🐳 開發環境與部署：Docker、Linux (Ubuntu)</p>
+
+            <h2 data-i18n="techTitle">
+                技術規格
+            </h2>
+
+            <p data-i18n="techTools">
+                • 🛠️ 開發工具：Visual Studio Code、IntelliJ IDEA Ultimate
+            </p>
+
+            <p data-i18n="techFrontend">
+                • 🧑 前端技術：HTML5、CSS3、JavaScript (ES6+)、Vue.js 3
+            </p>
+
+            <p data-i18n="techBackend">
+                • 💻 後端技術：Java 17、Spring Boot、JWT 身份驗證
+            </p>
+
+            <p data-i18n="techDatabase">
+                • 🐬 資料庫與資料存取：MySQL、MyBatis
+            </p>
+
+            <p data-i18n="techChart">
+                • 📊 資料視覺化：ECharts
+            </p>
+
+            <p data-i18n="techDeploy">
+                • 🐳 開發環境與部署：Docker、Linux (Ubuntu)
+            </p>
+
         </section>
+
+    </main>
+
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
+        <div class="modal-content">
+
+            <img id="modalImage" src="" alt="">
+
+        </div>
+
     </div>
 
-    <!-- 模態視窗 -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            <img id="modalImage" src="" alt="">
-        </div>
-    </div>
 
     <footer>
-        <p>2025 員工管理系統. All rights reserved.</p>
+
+        <p data-i18n="footer">
+            &copy; 2025 員工管理系統. All rights reserved.
+        </p>
+
     </footer>
 
+
+    <!-- 共用 i18n -->
+    <script src="../../javascript/i18n.js"></script>
+
+
     <script>
-        function openModal(imgElement) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("modalImage");
-            modal.style.display = "flex";
-            modalImg.src = imgElement.src;
-            modalImg.alt = imgElement.alt;
+
+        const translations = {
+
+            zh: {
+
+                pageTitle:
+                    "員工管理系統",
+
+                mainTitle:
+                    "員工管理系統",
+
+                introTitle:
+                    "介紹",
+
+                introDescription:
+                    `本系統是一套使用 Vue 3 與 Spring Boot
+                    開發的前後端分離員工管理系統，
+                    提供使用者登入、員工與部門資料管理、
+                    資料分析、操作日誌以及多語言與黑暗模式等功能。`,
+
+                featuresTitle:
+                    "主要功能",
+
+                feature1:
+                    "👤 簡潔的登入介面",
+
+                feature2:
+                    "🛡️ JWT 身份驗證",
+
+                feature3:
+                    "🗂️ 員工與部門資料管理",
+
+                feature4:
+                    "📈 員工資料分析與圖表呈現",
+
+                feature5:
+                    "📝 使用者操作日誌記錄",
+
+                feature6:
+                    "🌙 黑暗模式與多語言切換",
+
+                screenshotsTitle:
+                    "系統畫面",
+
+                loginPage:
+                    "登入頁面",
+
+                homePage:
+                    "主頁面",
+
+                darkMode:
+                    "黑暗模式 + 語言切換",
+
+                addEmployee:
+                    "新增員工",
+
+                editEmployee:
+                    "修改員工",
+
+                editSuccess:
+                    "修改成功",
+
+                departmentManagement:
+                    "部門管理",
+
+                employeeAnalysis:
+                    "員工分析",
+
+                systemLog:
+                    "系統日誌",
+
+                techTitle:
+                    "技術規格",
+
+                techTools:
+                    "• 🛠️ 開發工具：Visual Studio Code、IntelliJ IDEA Ultimate",
+
+                techFrontend:
+                    "• 🧑 前端技術：HTML5、CSS3、JavaScript (ES6+)、Vue.js 3",
+
+                techBackend:
+                    "• 💻 後端技術：Java 17、Spring Boot、JWT 身份驗證",
+
+                techDatabase:
+                    "• 🐬 資料庫與資料存取：MySQL、MyBatis",
+
+                techChart:
+                    "• 📊 資料視覺化：ECharts",
+
+                techDeploy:
+                    "• 🐳 開發環境與部署：Docker、Linux (Ubuntu)",
+
+                footer:
+                    "&copy; 2025 員工管理系統. 保留所有權利。",
+
+                loginPageAlt:
+                    "登入頁面",
+
+                homePageAlt:
+                    "員工管理系統主頁面",
+
+                darkModeAlt:
+                    "黑暗模式與語言切換畫面",
+
+                addEmployeeAlt:
+                    "新增員工畫面",
+
+                editEmployeeAlt:
+                    "修改員工畫面",
+
+                editSuccessAlt:
+                    "員工資料修改成功畫面",
+
+                departmentManagementAlt:
+                    "部門管理畫面",
+
+                employeeAnalysisAlt:
+                    "員工資料分析畫面",
+
+                systemLogAlt:
+                    "系統操作日誌畫面"
+            },
+
+
+            en: {
+
+                pageTitle:
+                    "Employee Management System",
+
+                mainTitle:
+                    "Employee Management System",
+
+                introTitle:
+                    "Overview",
+
+                introDescription:
+                    `This is a full-stack employee management system
+                    developed with Vue 3 and Spring Boot.
+                    It provides user authentication,
+                    employee and department management,
+                    data analysis, operation logging,
+                    multilingual support, and dark mode.`,
+
+                featuresTitle:
+                    "Key Features",
+
+                feature1:
+                    "👤 Clean and simple login interface",
+
+                feature2:
+                    "🛡️ JWT-based authentication",
+
+                feature3:
+                    "🗂️ Employee and department management",
+
+                feature4:
+                    "📈 Employee data analysis and visualization",
+
+                feature5:
+                    "📝 User operation logging",
+
+                feature6:
+                    "🌙 Dark mode and multilingual support",
+
+                screenshotsTitle:
+                    "System Screenshots",
+
+                loginPage:
+                    "Login Page",
+
+                homePage:
+                    "Home Page",
+
+                darkMode:
+                    "Dark Mode & Language Switching",
+
+                addEmployee:
+                    "Add Employee",
+
+                editEmployee:
+                    "Edit Employee",
+
+                editSuccess:
+                    "Update Successful",
+
+                departmentManagement:
+                    "Department Management",
+
+                employeeAnalysis:
+                    "Employee Analysis",
+
+                systemLog:
+                    "System Logs",
+
+                techTitle:
+                    "Technical Specifications",
+
+                techTools:
+                    "• 🛠️ Development Tools: Visual Studio Code, IntelliJ IDEA Ultimate",
+
+                techFrontend:
+                    "• 🧑 Frontend: HTML5, CSS3, JavaScript (ES6+), Vue.js 3",
+
+                techBackend:
+                    "• 💻 Backend: Java 17, Spring Boot, JWT Authentication",
+
+                techDatabase:
+                    "• 🐬 Database & Data Access: MySQL, MyBatis",
+
+                techChart:
+                    "• 📊 Data Visualization: ECharts",
+
+                techDeploy:
+                    "• 🐳 Development & Deployment: Docker, Linux (Ubuntu)",
+
+                footer:
+                    "&copy; 2025 Employee Management System. All rights reserved.",
+
+                loginPageAlt:
+                    "Login page",
+
+                homePageAlt:
+                    "Employee management system home page",
+
+                darkModeAlt:
+                    "Dark mode and language switching",
+
+                addEmployeeAlt:
+                    "Add employee screen",
+
+                editEmployeeAlt:
+                    "Edit employee screen",
+
+                editSuccessAlt:
+                    "Employee update successful screen",
+
+                departmentManagementAlt:
+                    "Department management screen",
+
+                employeeAnalysisAlt:
+                    "Employee data analysis screen",
+
+                systemLogAlt:
+                    "System operation log screen"
+            }
+
+        };
+
+
+        const language =
+            applyLanguage(
+                translations
+            );
+
+
+        /*
+         * 圖片 alt 翻譯
+         */
+        document
+            .querySelectorAll("[data-i18n-alt]")
+            .forEach(element => {
+
+                const key =
+                    element.dataset.i18nAlt;
+
+                const value =
+                    translations?.[language]?.[key];
+
+                if (value !== undefined) {
+                    element.alt =
+                        value;
+                }
+
+            });
+
+
+        /*
+         * 開啟圖片
+         */
+        function openModal(image) {
+
+            const modal =
+                document.getElementById(
+                    "imageModal"
+                );
+
+            const modalImage =
+                document.getElementById(
+                    "modalImage"
+                );
+
+            modal.style.display =
+                "flex";
+
+            modalImage.src =
+                image.src;
+
+            modalImage.alt =
+                image.alt;
         }
 
+
+        /*
+         * 關閉圖片
+         */
         function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
+
+            document
+                .getElementById(
+                    "imageModal"
+                )
+                .style.display =
+                "none";
         }
 
-        // 點擊模態框外部區域時關閉
-        document.getElementById("imageModal").addEventListener("click", function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
 
-        // 鍵盤 ESC 鍵關閉模態框
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                closeModal();
+        /*
+         * 點黑色背景關閉
+         */
+        document
+            .getElementById("imageModal")
+            .addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === this
+                    ) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+
+        /*
+         * ESC 關閉
+         */
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+                    closeModal();
+                }
+
             }
-        });
+        );
+
     </script>
+
 </body>
+
 </html>
