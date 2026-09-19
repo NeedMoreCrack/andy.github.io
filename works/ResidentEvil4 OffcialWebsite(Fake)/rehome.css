@@ -2,6 +2,7 @@
     display: inline-block;
     justify-content: center;
     position: relative;   
+    --back-home-text: "返回主畫面";
 }
 
 .logo-container img {
@@ -17,7 +18,7 @@
 
 
 .logo-container::after {
-    content: "返回主畫面";
+    content: var(--back-home-text);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -33,7 +34,7 @@
 
 @media screen and (max-width: 850px){
     .logo-container::after{
-        content: "返回主畫面";
+        content: var(--back-home-text);
         position: absolute;
         top: 50%;
         left: 50%;

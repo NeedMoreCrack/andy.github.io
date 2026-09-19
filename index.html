@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyWeb</title>
+    <title>Andy Portfolio</title>
+
     <style>
         footer {
             display: flex;
@@ -13,14 +15,38 @@
             background-color: #1a1a1a;
             color: #fff;
         }
-        footer p{
+
+        footer p {
             margin: 0;
         }
+
+        /* 語言切換按鈕 */
+        .language-btn {
+            margin-left: 15px;
+            border: 1px solid #fff;
+            color: #fff;
+            background: transparent;
+            border-radius: 5px;
+            padding: 5px 12px;
+            transition: 0.2s;
+        }
+
+        .language-btn:hover {
+            background-color: #fff;
+            color: #212529;
+        }
     </style>
+
     <script type="module">
-        //計次
+        // Firebase 訪問次數統計
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-        import { getDatabase, ref, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+        import {
+            getDatabase,
+            ref,
+            runTransaction,
+            get
+        } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyDzXk18AENy7NlcwFKMSc-27BuMZ5bb9DM",
             authDomain: "webcount-30ae4.firebaseapp.com",
@@ -34,127 +60,505 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
         const counterRef = ref(database, "web_count");
+
         const now = Date.now();
         const lastCount = localStorage.getItem("lastCountTime");
+
+        // 24 小時
         const interval = 86400000;
+
+        let currentViewCount = 0;
+
+        function updateViewCount() {
+            const language = localStorage.getItem("language") || "zh";
+
+            const viewCountElement = document.getElementById("view-count");
+
+            if (!viewCountElement) {
+                return;
+            }
+
+            if (language === "en") {
+                viewCountElement.innerText =
+                    ` | Views: ${currentViewCount}`;
+            } else {
+                viewCountElement.innerText =
+                    ` | 訪問次數: ${currentViewCount}`;
+            }
+        }
+
+        // 提供給一般 script 使用
+        window.updateViewCount = updateViewCount;
+
         if (!lastCount || now - lastCount > interval) {
-            runTransaction(counterRef, (current) => (current || 0) + 1)
-            .then(() => {
-                localStorage.setItem("lastCountTime", now);
-                return get(counterRef);
-            })
-            .then((snapshot) => {
-                const count = snapshot.val();
-                document.getElementById("view-count").innerText = ` | 訪問次數: ${count}`;
-            })
-            .catch((error) => {
-                console.error("錯誤：更新人數時發生問題", error);
-            });
+
+            runTransaction(
+                counterRef,
+                (current) => (current || 0) + 1
+            )
+                .then(() => {
+
+                    localStorage.setItem(
+                        "lastCountTime",
+                        now
+                    );
+
+                    return get(counterRef);
+                })
+                .then((snapshot) => {
+
+                    currentViewCount =
+                        snapshot.val() || 0;
+
+                    updateViewCount();
+                })
+                .catch((error) => {
+
+                    console.error(
+                        "錯誤：更新人數時發生問題",
+                        error
+                    );
+                });
+
         } else {
-            get(counterRef).then((snapshot) => {
-                const count = snapshot.val();
-                document.getElementById("view-count").innerText = ` | 訪問次數: ${count}`;
-            });
+
+            get(counterRef)
+                .then((snapshot) => {
+
+                    currentViewCount =
+                        snapshot.val() || 0;
+
+                    updateViewCount();
+                });
         }
     </script>
+
     <link href="stylesheet/bootstrap.min.css" rel="stylesheet">
+
     <link href="stylesheet/style.css" rel="stylesheet">
 </head>
+
 <body>
+
     <!-- 導航欄 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="work.html">我的作品集(點擊進入介紹)</a>
+
+            <a id="portfolio-link" class="navbar-brand" href="work.html?lang=zh" data-i18n="portfolio">
+                我的作品集(點擊進入介紹)
+            </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">首頁</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">關於我</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#skills">技能</a></li>
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home" data-i18n="navHome">
+                            首頁
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about" data-i18n="navAbout">
+                            關於我
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills" data-i18n="navSkills">
+                            技能
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <button id="language-btn" class="language-btn" type="button">
+                            EN
+                        </button>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- 首頁區塊 -->
+
+    <!-- 首頁 -->
     <section id="home" class="hero-section">
         <div class="container">
-            <h1>你好，我是一名 Java 後端工程師</h1>
-            <p>喜歡學習新的技術來擴展技能樹</p>
+
+            <h1 data-i18n="heroTitle">
+                你好，我是一名 Java 後端工程師
+            </h1>
+
+            <p data-i18n="heroDescription">
+                喜歡學習新的技術來擴展技能樹
+            </p>
+
         </div>
     </section>
 
-    <!-- 技能區塊 -->
+
+    <!-- 技能 -->
     <section id="skills" class="py-5">
         <div class="container">
-            <h2>專業技能</h2>
+
+            <h2 data-i18n="skillsTitle">
+                專業技能
+            </h2>
+
             <div class="row">
+
+                <!-- App -->
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <h3>App開發</h3>
-                        <p>Swift, SwiftUI, Storyboard, Kotlin</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="skill-card">
-                        <h3>前端開發</h3>
-                        <p>HTML, CSS, JavaScript, jQuery, Bootstrap, Vue</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="skill-card">
-                        <h3>後端開發</h3>
-                        <p>Java, Spring Boot, MyBatis, Python, Tomcat, RESTful API</p>
+
+                        <h3 data-i18n="appDevelopment">
+                            App開發
+                        </h3>
+
+                        <p>
+                            Swift, SwiftUI, Storyboard, Kotlin
+                        </p>
+
                     </div>
                 </div>
 
+
+                <!-- Frontend -->
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <h3>資料庫與系統整合</h3>
-                        <p>SQL Server, MySQL, RabbitMQ, Redis, Firebase</p>
+
+                        <h3 data-i18n="frontendDevelopment">
+                            前端開發
+                        </h3>
+
+                        <p>
+                            HTML, CSS, JavaScript,
+                            jQuery, Bootstrap, Vue
+                        </p>
+
                     </div>
                 </div>
 
+
+                <!-- Backend -->
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <h3>部署與開發工具</h3>
-                        <p>Git, GitLab, Linux, Docker, Kubernetes, kubectl, k9s, Nginx</p>
+
+                        <h3 data-i18n="backendDevelopment">
+                            後端開發
+                        </h3>
+
+                        <p>
+                            Java, Spring Boot, MyBatis,
+                            Python, Tomcat, RESTful API
+                        </p>
+
                     </div>
                 </div>
+
+
+                <!-- Database -->
+                <div class="col-md-4">
+                    <div class="skill-card">
+
+                        <h3 data-i18n="databaseIntegration">
+                            資料庫與系統整合
+                        </h3>
+
+                        <p>
+                            SQL Server, MySQL,
+                            RabbitMQ, Redis, Firebase
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- DevOps -->
+                <div class="col-md-4">
+                    <div class="skill-card">
+
+                        <h3 data-i18n="deploymentTools">
+                            部署與開發工具
+                        </h3>
+
+                        <p>
+                            Git, GitLab, Linux,
+                            Docker, Kubernetes,
+                            kubectl, k9s, Nginx
+                        </p>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- 關於我區塊 -->
+
+    <!-- 關於我 -->
     <section id="about" class="py-5 bg-light">
         <div class="container">
-            <h2>關於我</h2>
-            <p>
-                我目前主要發展方向為 Java 後端工程師，具備企業系統開發、維護與問題排查經驗。
-                過往工作中曾使用 Java、Spring Boot、MyBatis、SQL Server、MySQL、Tomcat、Git/GitLab 等技術，
-                參與後端功能開發、資料查詢、報表轉檔、批次處理與系統維護。
+
+            <h2 data-i18n="aboutTitle">
+                關於我
+            </h2>
+
+            <p data-i18n="about1">
+                我目前主要發展方向為 Java 後端工程師，
+                具備企業系統開發、維護與問題排查經驗。
+                過往工作中曾使用 Java、Spring Boot、
+                MyBatis、SQL Server、MySQL、Tomcat、
+                Git/GitLab 等技術，
+                參與後端功能開發、資料查詢、報表轉檔、
+                批次處理與系統維護。
             </p>
-            <p>
-                這些經驗讓我更重視後端開發中的資料處理效能、例外處理、Log 設計、交易流程與後續維護性。
-                除了完成 API 或功能開發外，我也習慣從錯誤訊息、Log、資料庫資料與程式流程中逐步分析問題，
+
+            <p data-i18n="about2">
+                這些經驗讓我更重視後端開發中的資料處理效能、
+                例外處理、Log 設計、交易流程與後續維護性。
+                除了完成 API 或功能開發外，
+                我也習慣從錯誤訊息、Log、資料庫資料與程式流程中
+                逐步分析問題，
                 找出可能原因並整理修正方向。
             </p>
-            <p>
-                目前我也持續累積 RabbitMQ、Redis、Docker、Kubernetes、kubectl、k9s 等技術經驗，
-                並朝向 Java 後端、Spring Boot、資料庫查詢效能、系統架構與容器化部署能力持續強化。
-                期望成為能穩定交付功能、協助排查問題，並持續成長的後端工程師。
+
+            <p data-i18n="about3">
+                目前我也持續累積 RabbitMQ、Redis、Docker、
+                Kubernetes、kubectl、k9s 等技術經驗，
+                並朝向 Java 後端、Spring Boot、
+                資料庫查詢效能、系統架構與容器化部署能力持續強化。
+                期望成為能穩定交付功能、協助排查問題，
+                並持續成長的後端工程師。
             </p>
+
         </div>
     </section>
-    <script src="javascript/bootstrap.bundle.min.js"></script>
+
 
     <footer>
+
         <p>
-            © 2026 Andy Portfolio. All rights reserved.
+            © 2026 Andy Portfolio.
+            <span data-i18n="copyright">
+                All rights reserved.
+            </span>
+
             <span id="view-count"></span>
         </p>
+
     </footer>
+
+
+    <script src="javascript/bootstrap.bundle.min.js"></script>
+
+
+    <!-- 多語言功能 -->
+    <script>
+
+        const translations = {
+
+            zh: {
+
+                portfolio:
+                    "我的作品集(點擊進入介紹)",
+
+                navHome:
+                    "首頁",
+
+                navAbout:
+                    "關於我",
+
+                navSkills:
+                    "技能",
+
+                heroTitle:
+                    "你好，我是一名 Java 後端工程師",
+
+                heroDescription:
+                    "喜歡學習新的技術來擴展技能樹",
+
+                skillsTitle:
+                    "專業技能",
+
+                appDevelopment:
+                    "App開發",
+
+                frontendDevelopment:
+                    "前端開發",
+
+                backendDevelopment:
+                    "後端開發",
+
+                databaseIntegration:
+                    "資料庫與系統整合",
+
+                deploymentTools:
+                    "部署與開發工具",
+
+                aboutTitle:
+                    "關於我",
+
+                about1:
+                    "我目前主要發展方向為 Java 後端工程師，具備企業系統開發、維護與問題排查經驗。過往工作中曾使用 Java、Spring Boot、MyBatis、SQL Server、MySQL、Tomcat、Git/GitLab 等技術，參與後端功能開發、資料查詢、報表轉檔、批次處理與系統維護。",
+
+                about2:
+                    "這些經驗讓我更重視後端開發中的資料處理效能、例外處理、Log 設計、交易流程與後續維護性。除了完成 API 或功能開發外，我也習慣從錯誤訊息、Log、資料庫資料與程式流程中逐步分析問題，找出可能原因並整理修正方向。",
+
+                about3:
+                    "目前我也持續累積 RabbitMQ、Redis、Docker、Kubernetes、kubectl、k9s 等技術經驗，並朝向 Java 後端、Spring Boot、資料庫查詢效能、系統架構與容器化部署能力持續強化。期望成為能穩定交付功能、協助排查問題，並持續成長的後端工程師。",
+
+                copyright:
+                    "All rights reserved."
+            },
+
+
+            en: {
+
+                portfolio:
+                    "Portfolio (Click to View Projects)",
+
+                navHome:
+                    "Home",
+
+                navAbout:
+                    "About",
+
+                navSkills:
+                    "Skills",
+
+                heroTitle:
+                    "Hi, I'm a Java Backend Developer",
+
+                heroDescription:
+                    "I enjoy learning new technologies and continuously expanding my skill set.",
+
+                skillsTitle:
+                    "Technical Skills",
+
+                appDevelopment:
+                    "App Development",
+
+                frontendDevelopment:
+                    "Frontend Development",
+
+                backendDevelopment:
+                    "Backend Development",
+
+                databaseIntegration:
+                    "Database & System Integration",
+
+                deploymentTools:
+                    "Deployment & Development Tools",
+
+                aboutTitle:
+                    "About Me",
+
+                about1:
+                    "My primary career focus is Java backend development. I have experience in enterprise system development, maintenance, and troubleshooting. In my previous work, I have used technologies including Java, Spring Boot, MyBatis, SQL Server, MySQL, Tomcat, and Git/GitLab. My responsibilities have included backend feature development, database queries, report generation and file conversion, batch processing, and system maintenance.",
+
+                about2:
+                    "These experiences have taught me to pay close attention to data processing performance, exception handling, logging design, transaction flows, and maintainability in backend development. In addition to implementing APIs and application features, I am accustomed to analyzing issues step by step through error messages, logs, database records, and application flows to identify possible causes and determine appropriate solutions.",
+
+                about3:
+                    "I am continuing to build practical experience with RabbitMQ, Redis, Docker, Kubernetes, kubectl, and k9s. I am also strengthening my skills in Java backend development, Spring Boot, database query optimization, system architecture, and containerized deployment. My goal is to become a backend developer who can reliably deliver features, assist with troubleshooting, and continuously improve my technical capabilities.",
+
+                copyright:
+                    "All rights reserved."
+            }
+        };
+
+
+        const languageButton =
+            document.getElementById("language-btn");
+
+
+        function changeLanguage(language) {
+
+            document
+                .querySelectorAll("[data-i18n]")
+                .forEach(element => {
+
+                    const key =
+                        element.getAttribute("data-i18n");
+
+                    const value =
+                        translations[language][key];
+
+                    if (value) {
+                        element.textContent = value;
+                    }
+
+                });
+
+
+            // 修改 HTML lang
+            document.documentElement.lang =
+                language === "zh"
+                    ? "zh-TW"
+                    : "en";
+
+
+            // 按鈕顯示下一個可以切換的語言
+            languageButton.textContent =
+                language === "zh"
+                    ? "EN"
+                    : "中文";
+
+
+            // 儲存語言設定
+            localStorage.setItem(
+                "language",
+                language
+            );
+
+            // 作品集連結帶入語言參數
+            const portfolioLink =
+                document.getElementById("portfolio-link");
+
+            if (portfolioLink) {
+                portfolioLink.href =
+                    `work.html?lang=${language}`;
+            }
+
+            // 更新瀏覽次數語言
+            if (window.updateViewCount) {
+                window.updateViewCount();
+            }
+        }
+
+
+        languageButton.addEventListener(
+            "click",
+            () => {
+
+                const currentLanguage =
+                    localStorage.getItem("language")
+                    || "zh";
+
+                const newLanguage =
+                    currentLanguage === "zh"
+                        ? "en"
+                        : "zh";
+
+                changeLanguage(newLanguage);
+            }
+        );
+
+
+        // 網頁載入時套用上一次使用的語言
+        const savedLanguage =
+            localStorage.getItem("language")
+            || "zh";
+
+        changeLanguage(savedLanguage);
+
+    </script>
+
 </body>
-</html> 
+
+</html>
